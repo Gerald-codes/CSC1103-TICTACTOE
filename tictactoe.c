@@ -76,7 +76,7 @@ void takeTurn(char player) {
 // Function to check if a player has won
 bool checkWin(char player) {
     // Winning combinations (rows, columns, diagonals)
-    int winCombos[8][3] = {
+    int winCombos[8][3] = {               // 8 winning combinations
         {0, 1, 2}, {3, 4, 5}, {6, 7, 8},  // Rows
         {0, 3, 6}, {1, 4, 7}, {2, 5, 8},  // Columns
         {0, 4, 8}, {2, 4, 6}              // Diagonals
@@ -93,17 +93,24 @@ bool checkWin(char player) {
     return false;
 }
 
-// Function to check if the game is tied
+// Function to check if the game is tied. 
 bool checkTie() {
     for (int i = 0; i < 9; i++) {
         if (board[i] == '-') {
-            return false;  // If there's an empty spot, it's not a tie
+            return false;       // If there's an empty spot, it's not a tie
         }
     }
-    return true;  // If all spots are filled and no one won, it's a tie
+    return true;                // If all spots are filled and no one won, it's a tie
 }
 
-// Function to switch players
+// Function to switch players. If player is 'X', switch to 'O' and vice versa
 char switchPlayer(char currentPlayer) {
-    return currentPlayer == 'X' ? 'O' : 'X';
+    if (currentPlayer == 'X')
+    {
+        return 'O';
+    }
+    else
+    {
+        return 'X';
+    }
 }
