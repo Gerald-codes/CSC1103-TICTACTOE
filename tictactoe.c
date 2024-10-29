@@ -3,6 +3,32 @@
 
 char board[9] = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
 
+void printBoard();
+char* checkGameOver();
+void takeTurn(char player);
+
+// Main game loop
+int main() {
+    printBoard();
+    char currentPlayer = 'X';
+    int gameOver = 0;                                                       // 1 = game over, 0 = game in progress
+    while (!gameOver) {
+        takeTurn(currentPlayer);                                            // Player takes a turn; Call function to handle player's turn
+        char* gameResult = checkGameOver();                                 // Check if the game is over
+        if (strcmp(gameResult, "win") == 0) {                               // If gameResult return "win"
+            printf("%c wins!\n", currentPlayer);                            // Print the winner
+            gameOver = 1;                                                   // End the game
+        } else if (strcmp(gameResult, "tie") == 0) {                        // Check if the game is a tie
+            printf("It's a tie!\n");                                        // Print that it's a tie
+            gameOver = 1;                                                   // End the game
+        } else {
+            // Switch to the other player
+            currentPlayer = currentPlayer == 'X' ? 'O' : 'X';               // Switch players between 'X' and 'O'
+        }
+    }
+    return 0;
+}
+
 // Function to print the game board
 void printBoard() {
     printf("%c | %c | %c\n", board[0], board[1], board[2]);
@@ -52,26 +78,4 @@ char* checkGameOver() {
     }
     // Game is not over
     return "play";
-}
-
-// Main game loop
-int main() {
-    printBoard();
-    char currentPlayer = 'X';
-    int gameOver = 0;
-    while (!gameOver) {
-        takeTurn(currentPlayer);
-        char* gameResult = checkGameOver();
-        if (strcmp(gameResult, "win") == 0) {
-            printf("%c wins!\n", currentPlayer);
-            gameOver = 1;
-        } else if (strcmp(gameResult, "tie") == 0) {
-            printf("It's a tie!\n");
-            gameOver = 1;
-        } else {
-            // Switch to the other player
-            currentPlayer = currentPlayer == 'X' ? 'O' : 'X';
-        }
-    }
-    return 0;
 }
