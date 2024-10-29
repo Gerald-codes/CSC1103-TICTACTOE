@@ -39,18 +39,18 @@ void printBoard() {
 
 // Function to handle a player's turn
 void takeTurn(char player) {
-    printf("\n%c's turn.\n", player);                                     // Print the player's turn
-    printf("Choose a position from 1-9: ");
-    int position;
-    scanf("%d", &position);
-    position -= 1;
-    while (position < 0 || position > 8 || board[position] != '-') {
-        printf("Invalid input or position already taken. Choose a different position: ");
-        scanf("%d", &position);
-        position -= 1;
+    printf("\n%c's turn.\n", player);                                                       // Print the player's turn
+    printf("Choose a position from 1-9: ");                                                 // Ask the player to choose a position
+    int position;                                                                           // Variable to store the player's chosen position
+    scanf("%d", &position);                                                                 // Get the player's input
+    position -= 1;                                                                          // Adjust the position to match the array index
+    while (position < 0 || position > 8 || board[position] != '-') {                        // Check if the input is valid and the position is not taken
+        printf("Invalid input or position already taken. Choose a different position: ");   // Ask the player to choose a different position
+        scanf("%d", &position);                                                             // Get the player's input
+        position -= 1;                                                                      // Adjust the position to match the array index
     }
-    board[position] = player;
-    printBoard();
+    board[position] = player;                                                               // Place the player's symbol on the board
+    printBoard();                                                                           // Print the updated board
 }
 
 // Function to check if the game is over
