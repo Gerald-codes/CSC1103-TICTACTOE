@@ -55,12 +55,12 @@ void takeTurn(char player) {
     int position = -1;
     char input[10];
 
-    while (1) {
+    while (true){
         printf("Player %c, enter a position (1-9): ", player);
         scanf("%s", input);
 
         // Convert input to integer and validate
-        if (sscanf(input, "%d", &position) == 1) {
+        if (sscanf(input, "%d", &position) == 1) { // Check if input is a valid integer 
             position -= 1;  // Adjust to zero-indexed array
             if (position >= 0 && position < 9 && board[position] == '-') {
                 board[position] = player;  // Place player's mark on the board
@@ -76,7 +76,7 @@ void takeTurn(char player) {
 // Function to check if a player has won
 bool checkWin(char player) {
     // Winning combinations (rows, columns, diagonals)
-    int winCombos[8][3] = {               // 8 winning combinations
+    int winCombos[8][3] = {
         {0, 1, 2}, {3, 4, 5}, {6, 7, 8},  // Rows
         {0, 3, 6}, {1, 4, 7}, {2, 5, 8},  // Columns
         {0, 4, 8}, {2, 4, 6}              // Diagonals
@@ -93,24 +93,17 @@ bool checkWin(char player) {
     return false;
 }
 
-// Function to check if the game is tied. 
+// Function to check if the game is tied
 bool checkTie() {
     for (int i = 0; i < 9; i++) {
         if (board[i] == '-') {
-            return false;       // If there's an empty spot, it's not a tie
+            return false;  // If there's an empty spot, it's not a tie
         }
     }
-    return true;                // If all spots are filled and no one won, it's a tie
+    return true;  // If all spots are filled and no one won, it's a tie
 }
 
-// Function to switch players. If player is 'X', switch to 'O' and vice versa
+// Function to switch players
 char switchPlayer(char currentPlayer) {
-    if (currentPlayer == 'X')
-    {
-        return 'O';
-    }
-    else
-    {
-        return 'X';
-    }
+    return currentPlayer == 'X' ? 'O' : 'X';
 }
