@@ -39,7 +39,7 @@ void printBoard() {
 
 // Function to handle a player's turn
 void takeTurn(char player) {
-    printf("\n%c's turn.\n", player);
+    printf("\n%c's turn.\n", player);                                     // Print the player's turn
     printf("Choose a position from 1-9: ");
     int position;
     scanf("%d", &position);
