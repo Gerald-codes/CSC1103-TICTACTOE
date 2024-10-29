@@ -3,6 +3,7 @@
 
 char board[9] = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};             // Game board with 9 positions; '-' represents an empty position
 
+//Initialize functions
 void printBoard();
 char* checkGameOver();
 void takeTurn(char player);
