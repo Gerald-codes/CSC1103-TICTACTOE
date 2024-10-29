@@ -1,82 +1,109 @@
 #include <stdio.h>
-#include <string.h>
+#include <stdbool.h>
 
-char board[9] = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};             // Game board with 9 positions; '-' represents an empty position
+// Initialize the board
+char board[9] = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
 
-//Initialize functions
+// Function prototypes
 void printBoard();
-char* checkGameOver();
 void takeTurn(char player);
+bool checkWin(char player);
+bool checkTie();
+char switchPlayer(char currentPlayer);
 
-// Main game loop
+// Main game function
 int main() {
-    printBoard();
     char currentPlayer = 'X';
-    int gameOver = 0;                                                       // 1 = game over, 0 = game in progress
-    while (!gameOver) {
-        takeTurn(currentPlayer);                                            // Player takes a turn; Call function to handle player's turn
-        char* gameResult = checkGameOver();                                 // Check if the game is over
-        if (strcmp(gameResult, "win") == 0) {                               // If gameResult return "win"
-            printf("%c wins!\n", currentPlayer);                            // Print the winner
-            gameOver = 1;                                                   // End the game
-        } else if (strcmp(gameResult, "tie") == 0) {                        // Check if the game is a tie
-            printf("It's a tie!\n");                                        // Print that it's a tie
-            gameOver = 1;                                                   // End the game
+    bool gameWon = false;
+    bool gameTied = false;
+
+    printf("Welcome to Tic-Tac-Toe!\n");
+    printBoard();
+
+    // Main game loop
+    while (!gameWon && !gameTied) {
+        takeTurn(currentPlayer);  // Player takes turn
+        gameWon = checkWin(currentPlayer);  // Check if the current player won
+        gameTied = checkTie();  // Check if the game is tied
+
+        if (gameWon) {
+            printf("Player %c wins!\n", currentPlayer);  // Announce the winner
+        } else if (gameTied) {
+            printf("It's a tie!\n");  // Announce a tie
         } else {
-            // Switch to the other player
-            currentPlayer = currentPlayer == 'X' ? 'O' : 'X';               // Switch players between 'X' and 'O'
+            currentPlayer = switchPlayer(currentPlayer);  // Switch players
         }
     }
+
     return 0;
 }
 
-// Function to print the game board
+// Function to print the current state of the board
 void printBoard() {
-    printf("%c | %c | %c\n", board[0], board[1], board[2]);
-    printf("%c | %c | %c\n", board[3], board[4], board[5]);
-    printf("%c | %c | %c\n", board[6], board[7], board[8]);
+    printf("\n");
+    for (int i = 0; i < 9; i++) {
+        printf("%c ", board[i]);
+        if (i % 3 == 2) {
+            printf("\n");  // Print a new line after every 3 positions
+        }
+    }
+    printf("\n");
 }
 
 // Function to handle a player's turn
 void takeTurn(char player) {
-    printf("\n%c's turn.\n", player);                                                       // Print the player's turn
-    printf("Choose a position from 1-9: ");                                                 // Ask the player to choose a position
-    int position;                                                                           // Variable to store the player's chosen position
-    scanf("%d", &position);                                                                 // Get the player's input
-    position -= 1;                                                                          // Adjust the position to match the array index
-    while (position < 0 || position > 8 || board[position] != '-') {                        // Check if the input is valid and the position is not taken
-        printf("Invalid input or position already taken. Choose a different position: ");   // Ask the player to choose a different position
-        scanf("%d", &position);                                                             // Get the player's input
-        position -= 1;                                                                      // Adjust the position to match the array index
+    int position = -1;
+    char input[10];
+
+    while (1) {
+        printf("Player %c, enter a position (1-9): ", player);
+        scanf("%s", input);
+
+        // Convert input to integer and validate
+        if (sscanf(input, "%d", &position) == 1) {
+            position -= 1;  // Adjust to zero-indexed array
+            if (position >= 0 && position < 9 && board[position] == '-') {
+                board[position] = player;  // Place player's mark on the board
+                break;
+            }
+        }
+        printf("Invalid input or position already taken. Please try again.\n");
     }
-    board[position] = player;                                                               // Place the player's symbol on the board
-    printBoard();                                                                           // Print the updated board
+
+    printBoard();  // Display the updated board
 }
 
-// Function to check if the game is over
-char* checkGameOver() {
-    // Check for a win
-    if ((board[0] == board[1] && board[1] == board[2] && board[0] != '-') ||
-        (board[3] == board[4] && board[4] == board[5] && board[3] != '-') ||
-        (board[6] == board[7] && board[7] == board[8] && board[6] != '-') ||
-        (board[0] == board[3] && board[3] == board[6] && board[0] != '-') ||
-        (board[1] == board[4] && board[4] == board[7] && board[1] != '-') ||
-        (board[2] == board[5] && board[5] == board[8] && board[2] != '-') ||
-        (board[0] == board[4] && board[4] == board[8] && board[0] != '-') ||
-        (board[2] == board[4] && board[4] == board[6] && board[2] != '-')) {
-        return "win";
-    }
-    // Check for a tie
-    int isTie = 1;
-    for (int i = 0; i < 9; i++) {
-        if (board[i] == '-') {
-            isTie = 0;
-            break;
+// Function to check if a player has won
+bool checkWin(char player) {
+    // Winning combinations (rows, columns, diagonals)
+    int winCombos[8][3] = {
+        {0, 1, 2}, {3, 4, 5}, {6, 7, 8},  // Rows
+        {0, 3, 6}, {1, 4, 7}, {2, 5, 8},  // Columns
+        {0, 4, 8}, {2, 4, 6}              // Diagonals
+    };
+
+    // Check if any winning combination is met
+    for (int i = 0; i < 8; i++) {
+        if (board[winCombos[i][0]] == player &&
+            board[winCombos[i][1]] == player &&
+            board[winCombos[i][2]] == player) {
+            return true;
         }
     }
-    if (isTie) {
-        return "tie";
+    return false;
+}
+
+// Function to check if the game is tied
+bool checkTie() {
+    for (int i = 0; i < 9; i++) {
+        if (board[i] == '-') {
+            return false;  // If there's an empty spot, it's not a tie
+        }
     }
-    // Game is not over
-    return "play";
+    return true;  // If all spots are filled and no one won, it's a tie
+}
+
+// Function to switch players
+char switchPlayer(char currentPlayer) {
+    return currentPlayer == 'X' ? 'O' : 'X';
 }
