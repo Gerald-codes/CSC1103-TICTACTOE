@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-char board[9] = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
+char board[9] = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};             // Game board with 9 positions; '-' represents an empty position
 
 void printBoard();
 char* checkGameOver();
