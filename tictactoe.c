@@ -10,18 +10,20 @@ void takeTurn(char player);
 bool checkWin(char player);
 bool checkTie();
 char switchPlayer(char currentPlayer);
-
+static int counter;
+static bool gameQuit;
 // Main game function
 int main() {
     char currentPlayer = 'X';
     bool gameWon = false;
     bool gameTied = false;
-
+    gameQuit = false;
     printf("Welcome to Tic-Tac-Toe!\n");
+    counter = 0; //initialize counter
     printBoard();
 
     // Main game loop
-    while (!gameWon && !gameTied) {
+    while (!gameWon && !gameTied && !gameQuit) {
         takeTurn(currentPlayer);  // Player takes turn
         gameWon = checkWin(currentPlayer);  // Check if the current player won
         gameTied = checkTie();  // Check if the game is tied
@@ -56,18 +58,29 @@ void takeTurn(char player) {
     char input[10];
 
     while (true){
-        printf("Player %c, enter a position (1-9): ", player);
+        printf("Player %c, enter a position (1-9)(0 to quit): ", player);
         scanf("%s", input);
-
+        if(input[0] == '0'){
+            printf("Game ended\n");
+            gameQuit = true;
+            break;
+        }
         // Convert input to integer and validate
         if (sscanf(input, "%d", &position) == 1) { // Check if input is a valid integer 
             position -= 1;  // Adjust to zero-indexed array
             if (position >= 0 && position < 9 && board[position] == '-') {
                 board[position] = player;  // Place player's mark on the board
+                counter++;
                 break;
             }
+            else if(position >= 0 && position < 9){
+                printf("Position already taken. Please try again.\n");
+            }
         }
-        printf("Invalid input or position already taken. Please try again.\n");
+        else{
+            printf("Invalid input. Please try again.\n");
+        }
+        
     }
 
     printBoard();  // Display the updated board
@@ -95,12 +108,11 @@ bool checkWin(char player) {
 
 // Function to check if the game is tied
 bool checkTie() {
-    for (int i = 0; i < 9; i++) {
-        if (board[i] == '-') {
-            return false;  // If there's an empty spot, it's not a tie
-        }
+    if(counter == 9){ //if all the cells are filled
+        return true;
     }
-    return true;  // If all spots are filled and no one won, it's a tie
+    return false;
+    
 }
 
 // Function to switch players
