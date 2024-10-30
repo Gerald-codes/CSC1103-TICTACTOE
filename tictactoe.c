@@ -5,13 +5,14 @@
 char board[9] = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
 
 // Function prototypes
-void printBoard();
-void takeTurn(char player);
-bool checkWin(char player);
-bool checkTie();
-char switchPlayer(char currentPlayer);
+void printBoard(); //nil
+void takeTurn(char player); //jw
+bool checkWin(char player); //qx
+bool checkTie(); //jw
+char switchPlayer(char currentPlayer); //qx
 static int counter;
 static bool gameQuit;
+
 // Main game function
 int main() {
     char currentPlayer = 'X';
