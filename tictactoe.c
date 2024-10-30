@@ -10,6 +10,13 @@ void takeTurn(char player); //jw
 bool checkWin(char player); //qx
 bool checkTie(); //jw
 char switchPlayer(char currentPlayer); //qx
+void WinCount(int *X_win_count, int *O_win_count, char player); //qx
+
+//Win count
+int X_win_count = 0;
+int O_win_count = 0;
+int tie_count = 0;
+
 static int counter;
 static bool gameQuit;
 
@@ -31,8 +38,10 @@ int main() {
 
         if (gameWon) {
             printf("Player %c wins!\n", currentPlayer);  // Announce the winner
+            WinCount(&X_win_count, &O_win_count, currentPlayer); //qx;
         } else if (gameTied) {
             printf("It's a tie!\n");  // Announce a tie
+            tie_count++;
         } else {
             currentPlayer = switchPlayer(currentPlayer);  // Switch players
         }
@@ -119,4 +128,13 @@ bool checkTie() {
 // Function to switch players
 char switchPlayer(char currentPlayer) {
     return currentPlayer == 'X' ? 'O' : 'X';
+}
+
+void WinCount(int *X_win_count, int *O_win_count, char player){
+    if(player == 'X'){
+        (*X_win_count)++;
+    }
+    else{
+        (*O_win_count)++;
+    }
 }
