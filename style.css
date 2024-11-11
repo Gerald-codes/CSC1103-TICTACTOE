@@ -100,3 +100,12 @@ window{
 #arrow1 {
     padding-right: 5px;
 }
+
+#back_button{
+    font-size: 15px;
+    color: white;
+    border: 0;
+    background: #1F3540;
+    border-radius: 10px;
+    padding: 6px;
+}

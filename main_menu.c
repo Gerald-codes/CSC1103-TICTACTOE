@@ -1,8 +1,7 @@
-// gcc -o tic_tac_toe_menu tic_tac_toe_menu.c difficulty_page.c `pkg-config --cflags --libs gtk+-3.0`
-// tic_tac_toe_menu.c
+// gcc -o start main_menu.c difficulty_page.c `pkg-config --cflags --libs gtk+-3.0`
+// main_menu.c
 
 #include <gtk/gtk.h>
-// #include "difficulty_page.h"  // Include the header for difficulty page functions
 #include "pages.h"
 
 GtkWidget *main_menu_window;  // Declare the main menu window as a global variable

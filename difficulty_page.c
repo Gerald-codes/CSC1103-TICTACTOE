@@ -23,10 +23,10 @@ void on_hard_clicked(GtkWidget *widget, gpointer data) {
 }
 
 // Callback function for the "Back" button
-// void on_back_clicked(GtkWidget *widget, gpointer data) {
-//     gtk_widget_hide(GTK_WIDGET(data));  // Hide the difficulty window
-//     gtk_widget_show_all(main_menu_window);  // Show the main menu window
-// }
+void on_back_clicked(GtkWidget *widget, gpointer data) {
+    gtk_widget_hide(GTK_WIDGET(data));  // Hide the difficulty window
+    gtk_widget_show_all(main_menu_window);  // Show the main menu window
+}
 
 // Function to show the difficulty selection page
 void show_difficulty_page(GtkWidget *main_menu_window) {
@@ -55,12 +55,6 @@ void show_difficulty_page(GtkWidget *main_menu_window) {
     gtk_widget_set_name(background, "bg");  // Set a name for CSS targeting
     gtk_fixed_put(GTK_FIXED(fixed), background, 0, 10);
 
-    // Create the "Back" button and add it to the main vertical box
-    // GtkWidget *back_button = gtk_button_new_with_label("Back");
-    // g_signal_connect(back_button, "clicked", G_CALLBACK(on_back_clicked), difficulty_window);
-    // gtk_box_pack_start(GTK_BOX(main_vbox), back_button, FALSE, FALSE, 0);
-    // gtk_widget_set_halign(back_button, GTK_ALIGN_END);  // Align to the top-right corner
-
     // // Easy Button
     GtkWidget *easy_button = gtk_button_new_with_label("EASY");
     gtk_widget_set_name(easy_button, "easy_button");  // Set a name for CSS targeting
@@ -78,6 +72,15 @@ void show_difficulty_page(GtkWidget *main_menu_window) {
     gtk_widget_set_name(hard_button, "hard_button");  // Set a name for CSS targeting
     g_signal_connect(hard_button, "clicked", G_CALLBACK(on_hard_clicked), NULL);
     gtk_fixed_put(GTK_FIXED(fixed), hard_button, 60, 245);   
+
+    // Create the "Back" button 
+    GtkWidget *back_button = gtk_button_new_with_label("Back");
+    GtkWidget *arrow = gtk_image_new_from_file("images/backArrow.png");
+    gtk_widget_set_name(back_button, "back_button");  // Set a name for CSS targeting
+    gtk_widget_set_name(arrow, "arrow");  // Set a name for CSS targeting
+    g_signal_connect(back_button, "clicked", G_CALLBACK(on_back_clicked), difficulty_window);
+    gtk_button_set_image(GTK_BUTTON(back_button),arrow);
+    gtk_fixed_put(GTK_FIXED(fixed), back_button, 10, 400);
 
     // Show all widgets in the difficulty window
     gtk_widget_show_all(difficulty_window);
