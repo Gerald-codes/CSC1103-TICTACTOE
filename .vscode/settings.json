@@ -1,0 +1,9 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "sdl_ttf.h": "c",
+        "gtypes.h": "c",
+        "gtktypes.h": "c",
+        "difficulty_page.h": "c"
+    }
+}
