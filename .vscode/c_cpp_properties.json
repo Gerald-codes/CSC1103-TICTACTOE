@@ -4,7 +4,7 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/opt/homebrew/include/gtk-3.0",
+                "/opt/homebrew/include/gtk-3.0"
             ],
             "defines": [],
             "macFrameworkPath": [

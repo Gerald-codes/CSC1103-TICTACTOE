@@ -4,6 +4,8 @@
         "sdl_ttf.h": "c",
         "gtypes.h": "c",
         "gtktypes.h": "c",
-        "difficulty_page.h": "c"
+        "difficulty_page.h": "c",
+        "gtk.h": "c",
+        "pages.h": "c"
     }
 }

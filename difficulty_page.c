@@ -1,6 +1,6 @@
 // difficulty_page.c
 
-#include "difficulty_page.h"
+#include "pages.h"
 
 extern GtkWidget *main_menu_window;  // Reference to the main menu window
 extern GtkWidget *fixed, *background, *title;  // Declare the fixed container, background image, and title label from startingPage.c

@@ -2,7 +2,7 @@
 // tic_tac_toe_menu.c
 
 #include <gtk/gtk.h>
-#include "difficulty_page.h"  // Include the header for difficulty page functions
+// #include "difficulty_page.h"  // Include the header for difficulty page functions
 #include "pages.h"
 
 GtkWidget *main_menu_window;  // Declare the main menu window as a global variable
