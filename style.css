@@ -1,111 +1,83 @@
-window{
-    background-color: #192A31;
-    font-family:'Jaro', sans-serif;
+/* style.css */
+#main-window {
+    background-image: url('/Users/andytzx/Desktop/Mini Project /image1.png');
+    background-size: 505px 492px; /* ensure the image covers the entire window */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image */
 }
 
-/* @import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); */
-
-#title_label{
-    font-size: 40px;
-    color: white;
-    font-style: italic;
-    margin-top: 25px;
-    margin-left: 25px;
+#tic-tac-toe-grid {
+    background-color: #192A34;
+}
+window {
+    font-family: 'Jaro', sans-serif; /* Use Jaro font for the entire window */
+    background-color: #192A34;
 }
 
-#bg{
-    margin-top: 100px;
-    margin-left: 2px;
-}
-
-#start_button{
-    border-radius: 50px;
-    border:0;
-    background: transparent;
-}
-
-#single_button {
-    font-size: 16px;
-    color: white;
+#back-button {
     background: #1F3540;
-    border-radius: 20px;
-    border: 0;
-    padding: 10px;
-    padding-left: 18px;
-    padding-right: 20px;
-}
-#box{
-    background: #1F3540;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
 }
 
-#double_button{
-    font-size: 16px;
+label {
+    font-size: 32px;
     color: white;
-    background: #1F3540;
-    border-radius: 20px;
-    border: 0;
-    padding: 10px;
-    padding-left: 18px;
-    padding-right: 12px;
-    
+} 
+#button-x label{ /*button-x override with specific selector */
+    font-size: 48px;
+    color: #32C3C0;
+    background-color: #1F3540;
+} 
+
+#button-x {
+    background: #1F3540; /* Background color for button-x */
 }
 
-#quit_button { 
-    font-size: 15px;
-    background: #1F3540;
-    border-radius: 16px;
-    padding: 8px;
-    padding-right: 40px;
-    color: white;
-    border: 0;
-    padding-left: 40px;
-}
-#easy_button {
-    font-size: 15px;
-    color: white;
-    border: 0;
-    background: #1F3540;
-    border-radius: 16px;
-    padding: 8px;
-    padding-right: 55px;
-    padding-left: 55px;
+#button-o {
+    background: #1F3540; /* Background color for button-o */
 }
 
-#medium_button {
-    font-size: 15px;
-    color: white;
-    border: 0;
-    background: #1F3540;
-    border-radius: 16px;
-    padding: 8px;
-    padding-right: 45px;
-    padding-left: 45px;
+#button-o label{ /* button-o override with specific selector */
+    font-size: 48px;
+    color: #FFB347;
+
 }
 
-#hard_button{
-    font-size: 15px;
-    color: white;
-    border: 0;
-    background: #1F3540;
-    border-radius: 16px;
-    padding: 8px;
-    padding-right: 55px;
-    padding-left: 55px;
+#grid-button{
+    background: #1F3540; 
+    border: none;
+    border-radius: 12px; /* Rounded corners */
+
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2); /* Optional shadow */
 }
 
-#arrow {
-    padding-right: 5px;
+#grid-button:hover {
+    background-color: #3a4a5f; /* Slightly lighter shade on hover */
 }
 
-#arrow1 {
-    padding-right: 5px;
-}
+#grid-button:active {
+    background-color: #1F3540;
+} 
 
-#back_button{
-    font-size: 15px;
-    color: white;
-    border: 0;
-    background: #1F3540;
+.score-box {
+    font-size: 24px;
+    font-weight: bold;
+    /*min-width: 107px;
+    min-height: 87px; 
+    padding: 10px; /* Add padding to the score buttons */
     border-radius: 10px;
-    padding: 6px;
+    text-align: center;
+}
+
+.score-x {
+    background-color: #5eb3b3; /* Teal color for X */
+}
+
+.score-ties {
+    background-color: #7a7a7a; /* Grey color for TIES */
+}
+
+.score-o {
+    background-color: #ffb347; /* Yellow color for O */
 }
