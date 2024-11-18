@@ -180,7 +180,13 @@ int main(){
 // Now you can use trainingSet and testingSet for further processing
     splitDataset(tictactoeDataset, trainingSet, testingSet);
     LinearRegressionModel model;
+    //print bots weights for me
+
     createModel(&model,trainingSet, testingSet);
+        printf("Bot's weights: ");
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        printf("%f ", model.weights[i]);
+    }
     playGame(&model);
         return 0;
 

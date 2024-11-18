@@ -4,7 +4,7 @@
 
 #define BOARD_SIZE 9  // 3x3 Tic-Tac-Toe board
 #define LEARNING_RATE 0.0001
-#define EPOCHS 1000
+#define EPOCHS 958
 #define MAX_SAMPLES 958
 #define TRAINING_SIZE (int)(958 * 0.8)
 #define TESTING_SIZE (int)(958 * 0.2)
@@ -24,21 +24,16 @@ typedef struct {
 void initialize_model(LinearRegressionModel *model);
 double predict(LinearRegressionModel *model, int board[]);
 void train(LinearRegressionModel *model, int boards[][BOARD_SIZE], double outcomes[]);
-double evaluate(LinearRegressionModel *model, int boards[][BOARD_SIZE], double outcomes[]);
+double evaluateTesting(LinearRegressionModel *model, int boards[][BOARD_SIZE], double outcomes[]);
+double evaluateTraining(LinearRegressionModel *model, int boards[][BOARD_SIZE], double outcomes[]);
 int createModel(LinearRegressionModel *model,char trainingset[TRAINING_SIZE][COLUMNS][MAX_ARRAY_SIZE], char testingset[TESTING_SIZE][COLUMNS][MAX_ARRAY_SIZE]);
 void parse_dataset(char dataset[][COLUMNS][MAX_ARRAY_SIZE], int boards[][BOARD_SIZE], double outcomes[], int size);
 
 
 // Function to initialize the model with random weights
 void initialize_model(LinearRegressionModel *model) {
-    // for (int i = 0; i < BOARD_SIZE; i++) {
-    //     model->weights[i] = (double) rand() / RAND_MAX;  // Random weight initialization
-    // }
-    double initial_weights[BOARD_SIZE] = {0.8, 0.4, 0.8,
-                                          0.4, 1.0, 0.4,
-                                          0.8, 0.4, 0.8};
     for (int i = 0; i < BOARD_SIZE; i++) {
-        model->weights[i] = initial_weights[i];
+        model->weights[i] = (double) rand() / RAND_MAX;  // Random weight initialization
     }
     model->bias = (double) rand() / RAND_MAX;  // Random bias initialization
 }
@@ -84,8 +79,10 @@ void train(LinearRegressionModel *model, int boards[][BOARD_SIZE], double outcom
 }
 
 // Function to evaluate the model's accuracy
-double evaluate(LinearRegressionModel *model, int boards[][BOARD_SIZE], double outcomes[]) {
+double evaluateTesting(LinearRegressionModel *model, int boards[][BOARD_SIZE], double outcomes[]) {
     int correct_predictions = 0;
+    int true_positive = 0,true_negative = 0,false_positive=0,false_negative = 0;
+
     for (int i = 0; i < TESTING_SIZE; i++) {
         double prediction = predict(model, boards[i]);
         int predicted_class = (prediction >= 0.5) ? 1 : 0;  // Threshold at 0.5
@@ -93,8 +90,61 @@ double evaluate(LinearRegressionModel *model, int boards[][BOARD_SIZE], double o
         if (predicted_class == (int)outcomes[i]) {
             correct_predictions++;
         }
+        if (predicted_class == 1 && (int)outcomes[i] == 1) {
+            true_positive++;
+        }
+        if (predicted_class == 0 && (int)outcomes[i] == 0) {
+            true_negative++;
+        }
+        if (predicted_class == 1 && (int)outcomes[i] == 0) {
+            false_positive++;
+        }
+        if (predicted_class == 0 && (int)outcomes[i] == 1) {
+            false_negative++;
+        }
+
     }
+    printf("---------------------------------------------------\n");
+    printf("True Positive: %d\t | False Positive: %d\n", true_positive,false_positive);
+    printf("True Negative: %d\t | False Negative: %d\n", true_negative,false_negative);
+    printf("----------------------------------------------------\n");
+
+
     return (double) correct_predictions / TESTING_SIZE;
+}
+
+double evaluateTraining(LinearRegressionModel *model, int boards[][BOARD_SIZE], double outcomes[]) {
+    int correct_predictions = 0;
+    int true_positive = 0,true_negative = 0,false_positive=0,false_negative = 0;
+
+    for (int i = 0; i < TRAINING_SIZE; i++) {
+        double prediction = predict(model, boards[i]);
+        int predicted_class = (prediction >= 0.5) ? 1 : 0;  // Threshold at 0.5
+
+        if (predicted_class == (int)outcomes[i]) {
+            correct_predictions++;
+        }
+        if (predicted_class == 1 && (int)outcomes[i] == 1) {
+            true_positive++;
+        }
+        if (predicted_class == 0 && (int)outcomes[i] == 0) {
+            true_negative++;
+        }
+        if (predicted_class == 1 && (int)outcomes[i] == 0) {
+            false_positive++;
+        }
+        if (predicted_class == 0 && (int)outcomes[i] == 1) {
+            false_negative++;
+        }
+
+    }
+    printf("---------------------------------------------------\n");
+    printf("True Positive: %d\t | False Positive: %d\n", true_positive,false_positive);
+    printf("True Negative: %d\t | False Negative: %d\n", true_negative,false_negative);
+    printf("----------------------------------------------------\n");
+
+
+    return (double) correct_predictions / TRAINING_SIZE;
 }
 
 // Parse the dataset from strings to integer arrays and outcomes
@@ -103,7 +153,6 @@ void parse_dataset(char dataset[][COLUMNS][MAX_ARRAY_SIZE], int boards[][BOARD_S
         for (int j = 0; j < BOARD_SIZE; j++) {
             boards[i][j] = atoi(dataset[i][j]);  // Convert board values (strings) to integers
         }
-        printf("OUTCOME %d) \t %d \n", i,atoi(dataset[i][-1]));
         outcomes[i] = atof(dataset[i][9]);  // Convert outcome to double
     }
 }
@@ -126,8 +175,11 @@ int createModel(LinearRegressionModel *model,char trainingset[TRAINING_SIZE][COL
     train(model, training_boards, training_outcomes);
 
     // Evaluate the model's accuracy on the parsed testing data
-    double accuracy = evaluate(model, testing_boards, testing_outcomes);
-    printf("Model Accuracy: %.2f%%\n", accuracy * 100);
+    double testingAccuracy = evaluateTesting(model, testing_boards, testing_outcomes);
+    printf("Model Accuracy: %.2f%%\n", testingAccuracy * 100);
+double trainingAccuracy = evaluateTraining(model, training_boards, training_outcomes);
+    printf("Model Accuracy: %.2f%%\n", trainingAccuracy * 100);
+
 
     return 0;
 }
