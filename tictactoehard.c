@@ -5,7 +5,7 @@
 #include <time.h>
 
 char board[9] = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
-int playerWins = 0; // Variables to keep track of each player's victories
+int playerWins = 0; // Variables to keep track of each player's victories and ties
 int computerWins = 0;
 int ties = 0;
 
@@ -17,7 +17,6 @@ void printBoard() {
 }
 
 // Function to check if the game is over
-// Returns "win" if there is a winner, "tie" if the game is a tie, and "play" if the game is still ongoing
 const char* checkGameOver() {
     // Check for a win
     if ((board[0] == board[1] && board[1] == board[2] && board[0] != '-') ||
@@ -46,7 +45,6 @@ const char* checkGameOver() {
 }
 
 // Function to check if a player has won
-// Returns true if the specified player has won, false otherwise
 bool checkWin(char player) {
     return ((board[0] == player && board[1] == player && board[2] == player) ||
             (board[3] == player && board[4] == player && board[5] == player) ||
@@ -61,6 +59,7 @@ bool checkWin(char player) {
 // Minimax algorithm with alpha-beta pruning
 // Returns the best score for the specified player
 int minimax(char player, bool isMaximizing, int alpha, int beta) {
+    // Base cases: check for a win or tie
     if (checkWin('X')) return -1; // 'X' wins
     if (checkWin('O')) return 1;  // 'O' wins
     if (strcmp(checkGameOver(), "tie") == 0) return 0; // Tie
@@ -99,7 +98,6 @@ int minimax(char player, bool isMaximizing, int alpha, int beta) {
 }
 
 // Function to find the best move for the computer
-// Returns the index of the best move for the computer
 int findBestMove() {
     int bestMove = -1;
     int bestScore = -1000;
@@ -117,67 +115,51 @@ int findBestMove() {
     return bestMove;
 }
 
-// Function to find a random move for the computer to lower difficulty level, so the computer doesn't always make the best move
-// Returns the index of a random available move for the computer
-int findRandomMove() {
-    int availableMoves[9];
-    int count = 0;
-    for (int i = 0; i < 9; i++) {
-        if (board[i] == '-') {
-            availableMoves[count++] = i;
-        }
-    }
-    if (count > 0) {
-        return availableMoves[rand() % count];
-    }
-    return -1;
-}
-
 // Function to handle a player's turn
-// Prompts the player to choose a position and updates the board
-void takeTurn(char player) {
-    if (player == 'O') {
-        int move;
-        if (rand() % 2 == 0) { // 50% chance to make a random move
-            move = findRandomMove();
-        } else {
-            move = findBestMove();
-        }
+void takeTurn(char player) 
+{
+    if (player == 'O') 
+    {
+        int move = findBestMove();
         board[move] = 'O';
-    } else {
+    } 
+    else 
+    {
         printf("\n%c's turn.\n", player);
         printf("Choose a position from 1-9: ");
         int position;
-        // Validate the input and check if the position is already taken
-        while (scanf("%d", &position) != 1 || position < 1 || position > 9 || board[position - 1] != '-') {
+        while (scanf("%d", &position) != 1 || position < 1 || position > 9 || board[position - 1] != '-') 
+        {
             while (getchar() != '\n'); // Clear the input buffer
             printf("Invalid input or position already taken. Choose a different position: ");
         }
         position -= 1;
         board[position] = player;
+
     }
-    if (player == 'O')
+    if(player == 'O')
     {
-        printBoard(); // Print the board only after the computer has made its move to avoid double printing
+        printBoard(); // Printing the board only after the computer has made its move to avoid double printing
+
     }
-    
+   
 }
 
-char promptPlayAgain()
-{
+char promptPlayAgain() {
     char playAgain;
     do {
         printf("Do you want to play again? (y/n): ");
         scanf(" %c", &playAgain);
         while (getchar() != '\n'); // Clear the input buffer
-    } while (playAgain != 'y' && playAgain != 'Y' && playAgain != 'n' && playAgain != 'N'); // Repeat if the input is invalid
+    } while (playAgain != 'y' && playAgain != 'n' && playAgain != 'Y' && playAgain != 'N'); // Repeat if the input is invalid
     return playAgain;
 }
 
 
+
 void runGame()
 {
-        char playAgain;
+    char playAgain;
     do {
         // Reset board
         memset(board, '-', sizeof(board)); // Initialize the board to an empty state
@@ -188,14 +170,17 @@ void runGame()
         while (!gameOver) {
             takeTurn(currentPlayer); // Handle the current player's turn
             const char* gameResult = checkGameOver(); // Check if the game is over
-            if (strcmp(gameResult, "win") == 0) { // If there is a winner
-                if (currentPlayer == 'X') {
+            if (strcmp(gameResult, "win") == 0) 
+            { // If there is a winner
+                if (currentPlayer == 'X') 
+                {
                     printBoard(); // Print the board one last time if 'X' wins
                 }
                 printf("%c wins!\n", currentPlayer); // Announce the winner
                 currentPlayer == 'X' ? playerWins++ : computerWins++; // Update win count
                 gameOver = 1; // Set game over flag
-            } else if (strcmp(gameResult, "tie") == 0) { // If the game is a tie
+            } 
+            else if (strcmp(gameResult, "tie") == 0) { // If the game is a tie
                 ties++; // Increment the tie count
                 printBoard(); // Print the board one last time
                 printf("It's a tie!\n"); // Announce the tie
@@ -205,24 +190,19 @@ void runGame()
             }
         }
 
-        // Print the number of wins for each player
+        // Print the number of wins for each player and ties
         printf("Number of times Player has won: %d\n", playerWins);
         printf("Number of times Computer has won: %d\n", computerWins);
         printf("Number of ties: %d\n", ties);
-
         // Prompt the user to play again and validate the input
         playAgain = promptPlayAgain();
-
+        
     } while (playAgain == 'y' || playAgain == 'Y'); // Repeat the game loop if the players want to play again
+
 }
 
-
-
 // Main game loop
-// Runs the game loop, alternating turns between the player and the computer
-// Prints the game board, checks for a win or tie, and updates the game state
 int main() {
-    srand(time(NULL)); // Seed the random number generator
-    runGame(); // Run the game loop
+    runGame();
     return 0;
 }
