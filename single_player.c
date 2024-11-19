@@ -4,8 +4,6 @@
 #include "constants.h"
 #include "pages.h"
 
-extern GtkWidget *main_menu_window;
-extern GtkWidget *difficulty_window;
 GtkWidget *single_player_window;
 
 void show_single_player_page(GtkWidget *difficulty_window) {

@@ -4,11 +4,7 @@
 #include "constants.h"
 #include "pages.h"
 
-extern GtkWidget *main_menu_window;
-extern GtkWidget *difficulty_window;
 GtkWidget *double_player_window;
-
-
 
 void show_double_player_page(GtkWidget *main_menu_window) {
     static char player_x[10] = "Player X";
