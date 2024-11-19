@@ -7,24 +7,13 @@
 extern GtkWidget *main_menu_window;
 extern GtkWidget *difficulty_window;
 GtkWidget *double_player_window;
-GtkWidget *single_player_window;
 
 
 
-
-void show_single_player_page(GtkWidget *difficulty_window) {
-    // parseDataset(&model);  // Parse the dataset
-
-    // // Print bot's weights
-    // printf("Bot's weights: ");
-    // for (int i = 0; i < BOARD_SIZE; i++) {
-    //     printf("%f ", model.weights[i]);
-    // }
-    // printf("\n");
-
-    static char player_x[10] = "X (YOU)";
-    static char player_o[10] = "O (CPU)";
-
+void show_double_player_page(GtkWidget *main_menu_window) {
+    static char player_x[10] = "Player X";
+    static char player_o[10] = "Player O";
+    
     load_players_name(player_x, player_o);
 
     game_data = (GameData *)malloc(sizeof(GameData));
@@ -35,29 +24,29 @@ void show_single_player_page(GtkWidget *difficulty_window) {
     }
 
     // Hide the main menu window
-    gtk_widget_hide(difficulty_window);
+    gtk_widget_hide(main_menu_window);
 
-    // Create the single player window
-    single_player_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(single_player_window), "TIC - TAC - TOE");
-    gtk_window_set_default_size(GTK_WINDOW(single_player_window), 600, 1000);
-    gtk_container_set_border_width(GTK_CONTAINER(single_player_window), 40);
+    // Create the double player window
+    double_player_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(double_player_window), "TIC - TAC - TOE");
+    gtk_window_set_default_size(GTK_WINDOW(double_player_window), 600, 1000);
+    gtk_container_set_border_width(GTK_CONTAINER(double_player_window), 40);
 
     GtkWidget *fixed, *background, *title, *mode;
 
     // Fixed container to allow positioning of widgets
     fixed = gtk_fixed_new();
-    gtk_container_add(GTK_CONTAINER(single_player_window), fixed);
+    gtk_container_add(GTK_CONTAINER(double_player_window), fixed);
 
     // Create the Title label
     title = gtk_label_new("TIC - TAC - TOE");
     gtk_widget_set_name(title, "title_label");  // Set a name for CSS targeting
     gtk_fixed_put(GTK_FIXED(fixed), title, 0, 0);
 
-    // Create the mode label
-    mode = gtk_label_new("SINGLE PLAYER - EASY MODE");
-    gtk_widget_set_name(mode, "status_label");  // Set a name for CSS targeting
-    gtk_fixed_put(GTK_FIXED(fixed), mode, 0, 50);
+    status_label = gtk_label_new("Player X's turn");
+    gtk_widget_set_name(status_label, "status_label");  // Set a name for CSS targeting
+    gtk_fixed_put(GTK_FIXED(fixed), status_label, 0, 50);
+
 
     // Create the grid
     GtkWidget *grid = gtk_grid_new(); 
@@ -67,7 +56,6 @@ void show_single_player_page(GtkWidget *difficulty_window) {
     gtk_grid_set_row_spacing(GTK_GRID(grid), 25); // Set the row spacing to 25 pixels
     gtk_grid_set_column_spacing(GTK_GRID(grid), 25); // Set the column spacing to 25 pixels
     gtk_fixed_put(GTK_FIXED(fixed), grid, 50, 180);
-
 
     gtk_grid_set_row_homogeneous(GTK_GRID(grid), TRUE);
     gtk_grid_set_column_homogeneous(GTK_GRID(grid), TRUE);
@@ -85,7 +73,7 @@ void show_single_player_page(GtkWidget *difficulty_window) {
     } 
 
     // X Scoreboard
-    GtkWidget *score_x_label = gtk_label_new("X (YOU)\n       0");
+    GtkWidget *score_x_label = gtk_label_new("PLAYER X\n       0");
     gtk_style_context_add_class(gtk_widget_get_style_context(score_x_label), "score-box");
     gtk_style_context_add_class(gtk_widget_get_style_context(score_x_label), "score-x");
     gtk_widget_set_size_request(score_x_label, 107, 87); // Set the size of the label
@@ -94,7 +82,7 @@ void show_single_player_page(GtkWidget *difficulty_window) {
 
 
     // O Scoreboard
-    GtkWidget *score_o_label = gtk_label_new("O (CPU)\n        0");
+    GtkWidget *score_o_label = gtk_label_new("PLAYER O\n        0");
     gtk_style_context_add_class(gtk_widget_get_style_context(score_o_label), "score-box");
     gtk_style_context_add_class(gtk_widget_get_style_context(score_o_label), "score-o");
     gtk_widget_set_size_request(score_o_label, 107, 87); // Set the size of the label
@@ -114,14 +102,14 @@ void show_single_player_page(GtkWidget *difficulty_window) {
     GtkWidget *arrow = gtk_image_new_from_file("images/backArrow.png");
     gtk_widget_set_name(back_button, "back_button");  // Set a name for CSS targeting
     gtk_widget_set_name(arrow, "arrow");  // Set a name for CSS targeting
-    g_signal_connect(back_button, "clicked", G_CALLBACK(on_back_button_clicked), single_player_window);
+    g_signal_connect(back_button, "clicked", G_CALLBACK(on_back_button_clicked), double_player_window);
     gtk_button_set_image(GTK_BUTTON(back_button),arrow);
     gtk_fixed_put(GTK_FIXED(fixed), back_button, 10, 800);
 
-    // Show all widgets in the single player window
-    gtk_widget_show_all(single_player_window);
+    // Show all widgets in the double player window
+    gtk_widget_show_all(double_player_window);
 
-    // Connect the delete-event signal to quit the application when the single player window is closed
-    g_signal_connect(single_player_window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
-
+    // Connect the delete-event signal to quit the application when the double player window is closed
+    g_signal_connect(double_player_window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
+    reset_board();
 }
