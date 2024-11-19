@@ -16,7 +16,7 @@ void on_single_player_clicked(GtkWidget *widget, gpointer data) {
 // Callback function for the Double Player button
 void on_double_player_clicked(GtkWidget *widget, gpointer data) {
     g_print("Double Player mode selected\n");
-    // Code to initialize Double Player mode goes here
+    show_double_player_page(main_menu_window);
 }
 
 // Callback function for the Quit button
@@ -36,8 +36,8 @@ void show_main_menu_page(GtkWidget *starting_window){
     // Create the main menu window
     main_menu_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(main_menu_window), "TIC - TAC - TOE");
-    gtk_window_set_default_size(GTK_WINDOW(main_menu_window), 300, 500);
-    gtk_container_set_border_width(GTK_CONTAINER(main_menu_window), 20);
+    gtk_window_set_default_size(GTK_WINDOW(main_menu_window), 600, 1000);
+    gtk_container_set_border_width(GTK_CONTAINER(main_menu_window), 40);
          
     // Connect the delete-event signal to quit the GTK main loop when the window is closed
     g_signal_connect(main_menu_window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
@@ -54,7 +54,7 @@ void show_main_menu_page(GtkWidget *starting_window){
     // Add the background image
     background = gtk_image_new_from_file("images/bg.png"); // Replace with the actual image path
     gtk_widget_set_name(background, "bg");  // Set a name for CSS targeting
-    gtk_fixed_put(GTK_FIXED(fixed), background, 0, 10);
+    gtk_fixed_put(GTK_FIXED(fixed), background, 0, 60);
 
     // Create the Single Player button
     single_button = gtk_button_new_with_label("SINGLE PLAYER");
@@ -63,7 +63,7 @@ void show_main_menu_page(GtkWidget *starting_window){
     gtk_widget_set_name(arrow, "arrow");  // Set a name for CSS targeting
     gtk_button_set_image(GTK_BUTTON(single_button),arrow);
     g_signal_connect(single_button, "clicked", G_CALLBACK(on_single_player_clicked), NULL);
-    gtk_fixed_put(GTK_FIXED(fixed), single_button, 55, 185);    
+    gtk_fixed_put(GTK_FIXED(fixed), single_button, 115, 310);    
 
     // Create the Double Player button 
     double_button = gtk_button_new_with_label("DOUBLE PLAYER");
@@ -73,12 +73,12 @@ void show_main_menu_page(GtkWidget *starting_window){
     gtk_button_set_image(GTK_BUTTON(double_button),arrow1);
     gtk_button_set_label(GTK_BUTTON(double_button), "DOUBLE PLAYER");
     g_signal_connect(double_button, "clicked", G_CALLBACK(on_double_player_clicked), NULL);
-    gtk_fixed_put(GTK_FIXED(fixed), double_button, 55, 240);   
+    gtk_fixed_put(GTK_FIXED(fixed), double_button, 115, 400);   
 
     GtkWidget *quit_button = gtk_button_new_with_label("QUIT GAME");
     gtk_widget_set_name(quit_button, "quit_button");  // Set a name for CSS targeting
     g_signal_connect(quit_button, "clicked", G_CALLBACK(on_quit_clicked), NULL);
-    gtk_fixed_put(GTK_FIXED(fixed), quit_button, 55, 370);
+    gtk_fixed_put(GTK_FIXED(fixed), quit_button, 115, 840);
 
     // Show all widgets in the main menu window
     gtk_widget_show_all(main_menu_window);
