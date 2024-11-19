@@ -172,7 +172,7 @@ void playGame(LinearRegressionModel *model) {
 
 int main(){
     char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE];
-    const char *filename = "shuffled_tic_tac_toe.csv";
+    const char *filename = "tic-tac-toe-encoded.data";
     readFile(filename,tictactoeDataset);
     // Split tictactoeDataset into 2 sets, 80% for training, 20% for testing
     char trainingSet[TRAINING_SIZE][COLUMNS][MAX_ARRAY_SIZE];
