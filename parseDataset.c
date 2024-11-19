@@ -1,47 +1,80 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "linearRegression.c"
 
 #define LINE_BUFFER_SIZE 1024
 #define ROWS 958
 #define COLUMNS 10
 #define MAX_ARRAY_SIZE 100
-void readFile (const char *filename,char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE]);
+#define BOARD_SIZE 9
+
+void convertAndReadFile(const char *filename, char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE]);
 void splitDataset(char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE], char trainingSet[TRAINING_SIZE][COLUMNS][MAX_ARRAY_SIZE], char testingSet[TESTING_SIZE][COLUMNS][MAX_ARRAY_SIZE]);
+void shuffleDataset(char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE]);
+
+// Function to shuffle rows in tictactoeDataset
+void shuffleDataset(char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE]) {
+    srand(time(NULL)); // Seed the random number generator
+
+    // Temporary buffer to hold a row during swapping
+    char tempRow[COLUMNS][MAX_ARRAY_SIZE];
+
+    for (int i = ROWS - 1; i > 0; i--) {
+        int j = rand() % (i + 1); // Random index between 0 and i
+
+        // Swap rows i and j
+        memcpy(tempRow, tictactoeDataset[i], sizeof(tempRow));             // Copy row i to temp
+        memcpy(tictactoeDataset[i], tictactoeDataset[j], sizeof(tempRow)); // Copy row j to row i
+        memcpy(tictactoeDataset[j], tempRow, sizeof(tempRow));             // Copy temp to row j
+    }
+}
+
+
 // Function to read the file
-void readFile(const char *filename,char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE]){
-    // file pointer
-    FILE *dataset;
-    //open the file in read mode
-    dataset = fopen(filename,"r");
-    if(dataset == NULL){
+void convertAndReadFile(const char *filename, char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE]) {
+    FILE *dataset = fopen(filename, "r");
+    if (dataset == NULL) {
         printf("Error opening file\n");
         exit(1);
     }
 
     char line[LINE_BUFFER_SIZE];
-    int row;
-    while (fgets(line, sizeof(line), dataset) &&row<ROWS )
-    {
-        //remove the newline character
-        line[strcspn(line, "\n")] = 0;
-        int col = 0;
+    int row = 0;
 
-        //tokenize the line
+    while (fgets(line, sizeof(line), dataset) && row < ROWS) {
+        // Remove the newline character
+        line[strcspn(line, "\n")] = 0;
+
+        int col = 0;
         char *token = strtok(line, ",");
-        while (token != NULL && col<COLUMNS) {
-            strcpy(tictactoeDataset[row][col], token);
+        while (token != NULL && col < COLUMNS) {
+            // Convert tokens to corresponding strings
+            if (strcmp(token, "x") == 0) {
+                strcpy(tictactoeDataset[row][col], "1");
+            } else if (strcmp(token, "o") == 0) {
+                strcpy(tictactoeDataset[row][col], "-1");
+            } else if (strcmp(token, "b") == 0) {
+                strcpy(tictactoeDataset[row][col], "0");
+            } else if (strcmp(token, "positive") == 0) {
+                strcpy(tictactoeDataset[row][col], "1");
+            } else if (strcmp(token, "negative") == 0) {
+                strcpy(tictactoeDataset[row][col], "0");
+            }
             token = strtok(NULL, ",");
             col++;
         }
         row++;
     }
     fclose(dataset);
+
+    // Shuffle the dataset
+    shuffleDataset(tictactoeDataset);
 }
 
-
-void splitDataset(char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE], char trainingSet[TRAINING_SIZE][COLUMNS][MAX_ARRAY_SIZE], char testingSet[TESTING_SIZE][COLUMNS][MAX_ARRAY_SIZE]){
+// Split the dataset into training and testing sets
+void splitDataset(char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE], char trainingSet[TRAINING_SIZE][COLUMNS][MAX_ARRAY_SIZE], char testingSet[TESTING_SIZE][COLUMNS][MAX_ARRAY_SIZE]) {
     int trainingIndex = 0;
     int testingIndex = 0;
     for (int i = 0; i < ROWS; i++) {
@@ -57,9 +90,7 @@ void splitDataset(char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE], char tra
             testingIndex++;
         }
     }
-
 }
-
 //CREATE BOARD TO TRY HERE
 
 // Global board for the game
@@ -169,25 +200,38 @@ void playGame(LinearRegressionModel *model) {
     }
 }
 
+// Other game-related functions remain unchanged...
 
-int main(){
+int main() {
     char tictactoeDataset[ROWS][COLUMNS][MAX_ARRAY_SIZE];
+<<<<<<< HEAD
     const char *filename = "tic-tac-toe-encoded.data";
     readFile(filename,tictactoeDataset);
     // Split tictactoeDataset into 2 sets, 80% for training, 20% for testing
+=======
+    const char *filename = "tic-tac-toe.data";
+
+    // Read the dataset and shuffle it
+    convertAndReadFile(filename, tictactoeDataset);
+
+    // Split the dataset into training and testing sets
+>>>>>>> 8eff71fc1f64a70ea4139def8f749175b5fae988
     char trainingSet[TRAINING_SIZE][COLUMNS][MAX_ARRAY_SIZE];
     char testingSet[TESTING_SIZE][COLUMNS][MAX_ARRAY_SIZE];
-// Now you can use trainingSet and testingSet for further processing
     splitDataset(tictactoeDataset, trainingSet, testingSet);
-    LinearRegressionModel model;
-    //print bots weights for me
 
-    createModel(&model,trainingSet, testingSet);
-        printf("Bot's weights: ");
+    LinearRegressionModel model;
+    createModel(&model, trainingSet, testingSet);
+
+    // Print bot's weights
+    printf("Bot's weights: ");
     for (int i = 0; i < BOARD_SIZE; i++) {
         printf("%f ", model.weights[i]);
     }
-    playGame(&model);
-        return 0;
+    printf("\n");
 
+    // Play the game
+    playGame(&model);
+
+    return 0;
 }
