@@ -9,6 +9,8 @@
         "pages.h": "c",
         "stdio.h": "c",
         "constants.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "__bit_reference": "c",
+        "ios": "c"
     }
 }

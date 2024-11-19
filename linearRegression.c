@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "pages.h"
+#include "backend.h"
 
 #define BOARD_SIZE 9  // 3x3 Tic-Tac-Toe board
 #define LEARNING_RATE 0.0001
@@ -11,14 +11,6 @@
 #define TESTING_SIZE (int)(958 * 0.2)
 #define COLUMNS 10
 #define MAX_ARRAY_SIZE 100
-
-
-// // Linear regression model
-// typedef struct {
-//     double weights[BOARD_SIZE];  // Weights for each cell on the board
-//     double bias;                 // Bias term
-
-// } LinearRegressionModel;
 
 
 // Function Declarations

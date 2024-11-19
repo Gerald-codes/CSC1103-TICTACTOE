@@ -9,13 +9,16 @@ GtkWidget *difficulty_window;
 // Callback functions for difficulty buttons
 void on_easy_clicked(GtkWidget *widget, gpointer data) {
     g_print("Easy difficulty selected\n");
-    show_single_player_page(difficulty_window);  // Show the single player page
-    // parseDataset();  // Parse the dataset
+    static char mode[10] = "EASY";
+    show_single_player_page(difficulty_window, mode);  // Show the single player page
     // Code to start the game in Easy mode goes here
 }
 
 void on_medium_clicked(GtkWidget *widget, gpointer data) {
     g_print("Medium difficulty selected\n");
+    static char mode[10] = "MEDIUM";
+    show_single_player_page(difficulty_window, mode);  // Show the single player page
+
     // Code to start the game in Medium mode goes here
     // Algorithm for medium difficulty, run the ML page (see how the CPU can click the button)
     // Navigate to the single page (difficulty mode as a parameter)
@@ -23,6 +26,8 @@ void on_medium_clicked(GtkWidget *widget, gpointer data) {
 
 void on_hard_clicked(GtkWidget *widget, gpointer data) {
     g_print("Hard difficulty selected\n");
+    static char mode[10] = "HARD";
+    show_single_player_page(difficulty_window, mode);  // Show the single player page
     // Code to start the game in Hard mode goes here
 }
 
