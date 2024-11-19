@@ -4,6 +4,10 @@
 #include <stdlib.h> 
 #include "pages.h"
 
+
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
 extern GtkWidget *main_menu_window;
 extern GtkWidget *difficulty_window;
 
@@ -16,25 +20,25 @@ typedef struct { // Define a struct called GameData
     GdkPixbuf *o_pixbuf; // Declare a GdkPixbuf pointer called o_pixbuf
 } GameData; // Name the struct GameData
 
-char player = 'X';
-char board[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
-GtkWidget *buttons[9]; // Array to store the button widgets
-GtkWidget *back_button; // Declare a GtkWidget pointer called back_button
-GtkWidget *end_button; // Declare a GtkWidget pointer called end_button
-GtkWidget *status_label; // Declare a GtkWidget pointer called status_label
+extern char player = 'X';
+extern char board[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+extern GtkWidget *buttons[9]; // Array to store the button widgets
+extern GtkWidget *back_button; // Declare a GtkWidget pointer called back_button
+extern GtkWidget *end_button; // Declare a GtkWidget pointer called end_button
+extern GtkWidget *status_label; // Declare a GtkWidget pointer called status_label
 
-char player_x_label[10]; // Declare a string called player_x_label and set it to "PLAYER X"
-char player_o_label[10];// Declare a string called player_o_label and set it to "PLAYER O"
-int score_x = 0; // Declare an integer called score_x and set it to 0
-int score_o = 0; // Declare an integer called score_o and set it to 0
-int score_ties = 0; // Declare an integer called score_ties and set it to 0
-int winning_indices[3] = {-1, -1, -1}; // Declare an integer array called winning_indices and set it to {-1, -1, -1}
-static gboolean blink_state = FALSE;
-static guint blink_timeout_id = 0;
-GameData *game_data; // Declare a pointer to a GameData struct called game_data
-gboolean auto_reset_pending = FALSE;
-gboolean blink_winner(gpointer data);
-gboolean delayed_reset(gpointer data);
+extern char player_x_label[10]; // Declare a string called player_x_label and set it to "PLAYER X"
+extern char player_o_label[10];// Declare a string called player_o_label and set it to "PLAYER O"
+extern int score_x = 0; // Declare an integer called score_x and set it to 0
+extern int score_o = 0; // Declare an integer called score_o and set it to 0
+extern int score_ties = 0; // Declare an integer called score_ties and set it to 0
+extern int winning_indices[3] = {-1, -1, -1}; // Declare an integer array called winning_indices and set it to {-1, -1, -1}
+extern static gboolean blink_state = FALSE;
+extern static guint blink_timeout_id = 0;
+extern GameData *game_data; // Declare a pointer to a GameData struct called game_data
+extern gboolean auto_reset_pending = FALSE;
+extern gboolean blink_winner(gpointer data);
+extern gboolean delayed_reset(gpointer data);
 
 
 
@@ -308,3 +312,4 @@ bool checkTie() {
 }
 
 
+#endif // HEADER_NAME_H  // End of header guard
