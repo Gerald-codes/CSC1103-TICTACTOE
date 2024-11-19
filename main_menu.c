@@ -38,9 +38,11 @@ void show_main_menu_page(GtkWidget *starting_window){
     gtk_window_set_title(GTK_WINDOW(main_menu_window), "TIC - TAC - TOE");
     gtk_window_set_default_size(GTK_WINDOW(main_menu_window), 600, 1000);
     gtk_container_set_border_width(GTK_CONTAINER(main_menu_window), 40);
+    gtk_window_set_resizable(GTK_WINDOW(main_menu_window), FALSE); // Enable window fixed size
          
     // Connect the delete-event signal to quit the GTK main loop when the window is closed
     g_signal_connect(main_menu_window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
+
 
     // Fixed container to allow positioning of widgets
     fixed = gtk_fixed_new();
