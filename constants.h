@@ -11,6 +11,7 @@
 extern GtkWidget *main_menu_window;
 extern GtkWidget *difficulty_window;
 
+extern GtkWidget *fixed, *background, *title;
 
 typedef struct { // Define a struct called GameData
     GtkWidget *score_x_label; // Declare a GtkWidget pointer called score_x_label
@@ -41,7 +42,6 @@ extern gboolean blink_state;
 extern GameData *game_data;
 
 extern char difficulty_mode[10];
-
 
 extern gboolean blink_winner(gpointer data);
 extern gboolean delayed_reset(gpointer data);

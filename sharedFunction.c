@@ -22,11 +22,14 @@ int score_o = 0;
 int score_draw = 0;
 int winning_indices[3] = {-1, -1, -1};
 
-gboolean auto_reset_pending = FALSE;
-guint blink_timeout_id = 0;
-gboolean blink_state = FALSE;
-GameData *game_data = NULL;
+gboolean auto_reset_pending = FALSE; // Indicates if an auto-reset is scheduled
+guint blink_timeout_id = 0;          // Timeout ID for blinking effect
+gboolean blink_state = FALSE;        // Toggle state for blinking effect
+GameData *game_data = NULL;          // Struct to hold game data 
 
+void reset_board(void);
+
+// Function to load player names into global variables
 void load_players_name(char *name_x, char *name_o) {
     strncpy(player_x_label, name_x, sizeof(player_x_label) - 1); // Copy name_x to player_x_label
     player_x_label[sizeof(player_x_label) - 1] = '\0'; // Ensure null termination
@@ -34,6 +37,8 @@ void load_players_name(char *name_x, char *name_o) {
     strncpy(player_o_label, name_o, sizeof(player_o_label) - 1); // Copy name_o to player_o_label
     player_o_label[sizeof(player_o_label) - 1] = '\0'; // Ensure null termination
 }
+
+// Function to update the scoreboards with the latest scores
 void update_scoreboard(){
     char score_text[50];
     snprintf(score_text, sizeof(score_text), "%s\n       %d",player_x_label, score_x); // Write the score to the score_text buffer
@@ -44,7 +49,7 @@ void update_scoreboard(){
     gtk_label_set_text(GTK_LABEL(game_data->score_draw_label), score_text);
 }
 
-void reset_board(void);
+// Function to reset the game board
 void reset_board() {
     for (int i = 0; i < 9; i++) { // Loop through the board array
         board[i] = '-'; // Set each element to a space character
@@ -59,7 +64,7 @@ void reset_board() {
     }
 }
 
-
+// Function to check the winner
 char check_winner() {
     // Check rows
     for (int i = 0; i < 3; i++) {
@@ -67,7 +72,7 @@ char check_winner() {
             winning_indices[0] = i * 3;
             winning_indices[1] = i * 3 + 1;
             winning_indices[2] = i * 3 + 2;
-            return board[i * 3];
+            return board[i * 3]; // Return the winner ('X' or 'O')
         }
     }
     // Check columns
@@ -101,6 +106,7 @@ char check_winner() {
     return 'D'; // Draw
 }
 
+// Function to auto-reset the board after delay
 gboolean auto_reset_board(gpointer data) {
     if (auto_reset_pending) {
         reset_board();
@@ -114,7 +120,8 @@ gboolean auto_reset_board(gpointer data) {
     return FALSE; // Don't repeat the timer
 }
 
-// Function to blink the winning indices
+
+// Function to blink the winning cells
 gboolean blink_winner(gpointer data) {
     blink_state = !blink_state; // Toggle the blink state
     for (int i = 0; i < 3; i++) {
@@ -130,6 +137,7 @@ gboolean blink_winner(gpointer data) {
     return TRUE; // blink_winner will called again after a delay to create a blinking effect
 }
 
+// Function to handle button click events for SINGLE PLAYER MODE
 void button_clicked(GtkWidget *widget, gpointer data) {
     int index = GPOINTER_TO_INT(data); // Convert the data pointer to an integer
     if (board[index] == '-') { // Check if the board at the index is empty
@@ -175,8 +183,8 @@ void button_clicked(GtkWidget *widget, gpointer data) {
         } else {
             // GET CPU MOVE FROM ML MODEL OR MINMAX
             if ((strcmp(difficulty_mode,"EASY")) == 0){
-                int move = findBestMove(&model);
-                    board[move] = 'O';
+                int move = find_best_move(&model); // Get the best move from the Machine Learning model
+                    board[move] = 'O'; // Set the board at the move index to 'O'
                     char player_str[2] = {'O', '\0'}; // Create a string with the player character
                     gtk_widget_set_name(buttons[move], "button-o"); //extract button-o style from css
                     gtk_button_set_label(GTK_BUTTON(buttons[move]), player_str); // Set the label of the button to the player
@@ -184,22 +192,22 @@ void button_clicked(GtkWidget *widget, gpointer data) {
             else if((strcmp(difficulty_mode,"MEDIUM")) == 0){
                 srand(time(NULL)); // Seed the random number generator
                 if (rand() % 2 == 0) { // 50% chance to make a random move
-                    int move = findRandomMinMaxMove();
-                    board[move] = 'O';
+                    int move = find_random_min_max_move(); // Get a random move from the min-max algorithm
+                    board[move] = 'O'; // Set the board at the move index to 'O'
                     char player_str[2] = {'O', '\0'}; // Create a string with the player character
                     gtk_widget_set_name(buttons[move], "button-o"); //extract button-o style from css
                     gtk_button_set_label(GTK_BUTTON(buttons[move]), player_str); // Set the label of the button to the player
                 } else {
-                    int move = findBestMinMaxMove();
-                    board[move] = 'O';
+                    int move = find_best_min_max_move(); // Get the best move from the Min-Max algorithm
+                    board[move] = 'O'; // Set the board at the move index to 'O'
                     char player_str[2] = {'O', '\0'}; // Create a string with the player character
                     gtk_widget_set_name(buttons[move], "button-o"); //extract button-o style from css
                     gtk_button_set_label(GTK_BUTTON(buttons[move]), player_str); // Set the label of the button to the player
                 }
             }
             else if ((strcmp(difficulty_mode,"HARD")) == 0){
-                int move = findBestMinMaxMove();
-                board[move] = 'O';
+                int move = find_best_min_max_move(); // Get the best move from the Min-Max algorithm
+                board[move] = 'O'; // Set the board at the move index to 'O'
                 char player_str[2] = {'O', '\0'}; // Create a string with the player character
                 gtk_widget_set_name(buttons[move], "button-o"); //extract button-o style from css
                 gtk_button_set_label(GTK_BUTTON(buttons[move]), player_str); // Set the label of the button to the player
@@ -228,15 +236,14 @@ void button_clicked(GtkWidget *widget, gpointer data) {
                 gtk_widget_set_sensitive(buttons[i], FALSE); // Disable the button
             }
 
-        // Schedule the board reset after 3 seconds
+        // Schedule the board reset after 2 seconds
             auto_reset_pending = TRUE;
             g_timeout_add_seconds(2, auto_reset_board, NULL);}
-            // g_signal_connect(, "clicked", G_CALLBACK(button_clicked), GINT_TO_POINTER(i)); // Connect the "clicked" signal of the button to the button_clicked function
         }
-    
     }
 }
 
+// Function to handle button click events for DOUBLE PLAYER MODE
 void button_clicked2(GtkWidget *widget, gpointer data) {
     int index = GPOINTER_TO_INT(data); // Convert the data pointer to an integer
     if (board[index] == '-') { // Check if the board at the index is empty
@@ -289,6 +296,7 @@ void button_clicked2(GtkWidget *widget, gpointer data) {
     }
 }
 
+// Function to clean up the game data
 void cleanup_game_data() {
     if (game_data != NULL) {
         free(game_data);
@@ -319,8 +327,7 @@ void on_back_button_clicked(GtkWidget *widget, gpointer data) {
     gtk_widget_show_all(main_menu_window);
 }
 
-
-
+// Function to check if a player has won
 bool checkWin(char player) {
     // Winning combinations (rows, columns, diagonals)
     int winCombos[8][3] = {
@@ -342,6 +349,8 @@ bool checkWin(char player) {
     }
     return false;
 }
+
+// Function to check if the game is a tie
 bool checkTie() {
     for (int i = 0; i < 9; i++) {
         if (board[i] == ' ') {

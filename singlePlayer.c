@@ -16,7 +16,7 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     if (strcmp(difficulty,"EASY") == 0){
         strncpy(difficulty_mode, difficulty, sizeof(difficulty_mode) - 1); // Copy name_x to player_x_label
         difficulty_mode[sizeof(difficulty_mode) - 1] = '\0'; // Ensure null termination
-        parseDataset(&model);  // Parse the dataset
+        parse_dataset(&model);  // Parse the dataset
     }else if(strcmp(difficulty, "MEDIUM") == 0){
         strncpy(difficulty_mode, difficulty, sizeof(difficulty_mode) - 1); // Copy name_x to player_x_label
         difficulty_mode[sizeof(difficulty_mode) - 1] = '\0'; // Ensure null termination

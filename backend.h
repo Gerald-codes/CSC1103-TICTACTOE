@@ -8,7 +8,7 @@ typedef struct {
 
 extern LinearRegressionModel model;
 
-int parseDataset(LinearRegressionModel *model);
-int findBestMove(LinearRegressionModel *model);
-int findRandomMinMaxMove();
-int findBestMinMaxMove();
+int parse_dataset(LinearRegressionModel *model);
+int find_best_move(LinearRegressionModel *model);
+int find_random_min_max_move();
+int find_best_min_max_move();
