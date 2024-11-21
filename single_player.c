@@ -24,7 +24,6 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
         strncpy(difficulty_mode, difficulty, sizeof(difficulty_mode) - 1); // Copy name_x to player_x_label
         difficulty_mode[sizeof(difficulty_mode) - 1] = '\0'; // Ensure null termination
     }
-    printf("Difficulty: %s\n", difficulty_mode);
 
     static char player_x[10] = "X (YOU)";
     static char player_o[10] = "O (CPU)";
