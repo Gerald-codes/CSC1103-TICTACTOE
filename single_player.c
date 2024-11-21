@@ -7,14 +7,6 @@
 GtkWidget *single_player_window;
 
 void show_single_player_page(GtkWidget *difficulty_window) {
-    // parseDataset(&model);  // Parse the dataset
-
-    // // Print bot's weights
-    // printf("Bot's weights: ");
-    // for (int i = 0; i < BOARD_SIZE; i++) {
-    //     printf("%f ", model.weights[i]);
-    // }
-    // printf("\n");
 
     static char player_x[10] = "X (YOU)";
     static char player_o[10] = "O (CPU)";

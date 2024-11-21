@@ -61,7 +61,6 @@ void reset_board() {
 
 
 char check_winner() {
-    printf("board %s\n", board);
     // Check rows
     for (int i = 0; i < 3; i++) {
         if (board[i * 3] == board[i * 3 + 1] && board[i * 3 + 1] == board[i * 3 + 2] && board[i * 3] != '-') {
