@@ -64,7 +64,7 @@ void show_double_player_page(GtkWidget *main_menu_window) {
         gtk_widget_set_vexpand(buttons[i], TRUE); // Set the vertical expand property of the button
 
         gtk_grid_attach(GTK_GRID(grid), buttons[i], i % 3, i / 3, 1, 1); // Attach the button to the grid
-        g_signal_connect(buttons[i], "clicked", G_CALLBACK(button_clicked), GINT_TO_POINTER(i)); // Connect the "clicked" signal of the button to the button_clicked function
+        g_signal_connect(buttons[i], "clicked", G_CALLBACK(button_clicked2), GINT_TO_POINTER(i)); // Connect the "clicked" signal of the button to the button_clicked function
         gtk_widget_set_sensitive(buttons[i], TRUE);
     } 
 
@@ -85,13 +85,13 @@ void show_double_player_page(GtkWidget *main_menu_window) {
     game_data->score_o_label = score_o_label;
     gtk_fixed_put(GTK_FIXED(fixed), score_o_label, 350, 650);
 
-    // Ties Scoreboard
-    GtkWidget *score_ties_label = gtk_label_new("TIES\n    0");
-    gtk_style_context_add_class(gtk_widget_get_style_context(score_ties_label), "score-box");
-    gtk_style_context_add_class(gtk_widget_get_style_context(score_ties_label), "score-ties");
-    gtk_widget_set_size_request(score_ties_label, 107, 87); // Set the size of the label
-    game_data->score_ties_label = score_ties_label;
-    gtk_fixed_put(GTK_FIXED(fixed), score_ties_label, 200, 650);
+    // Draw Scoreboard
+    GtkWidget *score_draw_label = gtk_label_new("DRAW\n    0");
+    gtk_style_context_add_class(gtk_widget_get_style_context(score_draw_label), "score-box");
+    gtk_style_context_add_class(gtk_widget_get_style_context(score_draw_label), "score-draw");
+    gtk_widget_set_size_request(score_draw_label, 107, 87); // Set the size of the label
+    game_data->score_draw_label = score_draw_label;
+    gtk_fixed_put(GTK_FIXED(fixed), score_draw_label, 200, 650);
 
     // Create the "Back" button 
     GtkWidget *back_button = gtk_button_new_with_label("Back");

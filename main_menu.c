@@ -15,13 +15,11 @@ void on_single_player_clicked(GtkWidget *widget, gpointer data) {
 
 // Callback function for the Double Player button
 void on_double_player_clicked(GtkWidget *widget, gpointer data) {
-    g_print("Double Player mode selected\n");
     show_double_player_page(main_menu_window);
 }
 
 // Callback function for the Quit button
 void on_quit_clicked(GtkWidget *widget, gpointer data) {
-    g_print("Quitting the game\n");
     gtk_main_quit();
 }
 

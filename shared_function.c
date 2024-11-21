@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h> 
 #include "constants.h"
-
+#include "backend.h"
 
 GtkWidget *main_menu_window = NULL;
 GtkWidget *difficulty_window = NULL;
@@ -13,13 +13,13 @@ GtkWidget *end_button = NULL;
 GtkWidget *status_label = NULL;
 
 char player = 'X';
-char board[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+char board[9] = {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
 char player_x_label[10] = "PLAYER X";
 char player_o_label[10] = "PLAYER O";
 
 int score_x = 0;
 int score_o = 0;
-int score_ties = 0;
+int score_draw = 0;
 int winning_indices[3] = {-1, -1, -1};
 
 gboolean auto_reset_pending = FALSE;
@@ -40,8 +40,8 @@ void update_scoreboard(){
     gtk_label_set_text(GTK_LABEL(game_data->score_x_label), score_text);
     snprintf(score_text, sizeof(score_text), "%s\n        %d",player_o_label, score_o); // Write the score to the score_text buffer
     gtk_label_set_text(GTK_LABEL(game_data->score_o_label), score_text);
-    snprintf(score_text, sizeof(score_text), "TIES\n    %d", score_ties); // Write the score to the score_text buffer
-    gtk_label_set_text(GTK_LABEL(game_data->score_ties_label), score_text);
+    snprintf(score_text, sizeof(score_text), "DRAW\n    %d", score_draw); // Write the score to the score_text buffer
+    gtk_label_set_text(GTK_LABEL(game_data->score_draw_label), score_text);
 }
 
 void reset_board(void);
@@ -144,13 +144,13 @@ void button_clicked(GtkWidget *widget, gpointer data) {
         } else {
             gtk_widget_set_name(widget, "button-o"); //extract button-o style from css
         }
-
+        
         char winner = check_winner();
         if (winner != '-') { // Check if there is a winner
             char message[50];
             if (winner == 'D') { // Check if the game is a draw
                 snprintf(message, sizeof(message), "It's a draw!"); 
-                score_ties++;
+                score_draw++;
             } else { // If there is a winner
                 snprintf(message, sizeof(message), "Player %c wins!", winner);
                 if (winner == 'X') { // Check if the winner is X
@@ -173,11 +173,67 @@ void button_clicked(GtkWidget *widget, gpointer data) {
             g_timeout_add_seconds(2, auto_reset_board, NULL);
             
         } else {
-            player = (player == 'X') ? 'O' : 'X'; // Switch players
-            char message[50]; 
-            snprintf(message, sizeof(message), "Player %c's turn", player); // Set the message
+            // GET CPU MOVE FROM ML MODEL OR MINMAX
+            if ((strcmp(difficulty_mode,"EASY")) == 0){
+                int move = findBestMove(&model);
+                    board[move] = 'O';
+                    char player_str[2] = {'O', '\0'}; // Create a string with the player character
+                    gtk_widget_set_name(buttons[move], "button-o"); //extract button-o style from css
+                    gtk_button_set_label(GTK_BUTTON(buttons[move]), player_str); // Set the label of the button to the player
+            }
+            else if((strcmp(difficulty_mode,"MEDIUM")) == 0){
+                srand(time(NULL)); // Seed the random number generator
+                if (rand() % 2 == 0) { // 50% chance to make a random move
+                    int move = findRandomMinMaxMove();
+                    board[move] = 'O';
+                    char player_str[2] = {'O', '\0'}; // Create a string with the player character
+                    gtk_widget_set_name(buttons[move], "button-o"); //extract button-o style from css
+                    gtk_button_set_label(GTK_BUTTON(buttons[move]), player_str); // Set the label of the button to the player
+                } else {
+                    int move = findBestMinMaxMove();
+                    board[move] = 'O';
+                    char player_str[2] = {'O', '\0'}; // Create a string with the player character
+                    gtk_widget_set_name(buttons[move], "button-o"); //extract button-o style from css
+                    gtk_button_set_label(GTK_BUTTON(buttons[move]), player_str); // Set the label of the button to the player
+                }
+            }
+            else if ((strcmp(difficulty_mode,"HARD")) == 0){
+                int move = findBestMinMaxMove();
+                board[move] = 'O';
+                char player_str[2] = {'O', '\0'}; // Create a string with the player character
+                gtk_widget_set_name(buttons[move], "button-o"); //extract button-o style from css
+                gtk_button_set_label(GTK_BUTTON(buttons[move]), player_str); // Set the label of the button to the player
+            }
+
+            char winner = check_winner();
+            if (winner != '-') { // Check if there is a winner
+                char message[50];
+                if (winner == 'D') { // Check if the game is a draw
+                    snprintf(message, sizeof(message), "It's a draw!"); 
+                    score_draw++;
+                } else { // If there is a winner
+                    snprintf(message, sizeof(message), "CPU %c wins!", winner);
+                    if (winner == 'X') { // Check if the winner is X
+                        score_x++;
+                    } else { // If the winner is O
+                        score_o++;
+                    }
+                    blink_timeout_id = g_timeout_add(500, blink_winner, NULL); // Add a timeout to blink the winning indices
+                }
             gtk_label_set_text(GTK_LABEL(status_label), message); // Set the text of the status_label widget
+            update_scoreboard(); // Update the scoreboard
+            
+            // Disable all buttons
+            for (int i = 0; i < 9; i++) {
+                gtk_widget_set_sensitive(buttons[i], FALSE); // Disable the button
+            }
+
+        // Schedule the board reset after 3 seconds
+            auto_reset_pending = TRUE;
+            g_timeout_add_seconds(2, auto_reset_board, NULL);}
+            // g_signal_connect(, "clicked", G_CALLBACK(button_clicked), GINT_TO_POINTER(i)); // Connect the "clicked" signal of the button to the button_clicked function
         }
+    
     }
 }
 
@@ -201,7 +257,7 @@ void button_clicked2(GtkWidget *widget, gpointer data) {
             char message[50];
             if (winner == 'D') { // Check if the game is a draw
                 snprintf(message, sizeof(message), "It's a draw!"); 
-                score_ties++;
+                score_draw++;
             } else { // If there is a winner
                 snprintf(message, sizeof(message), "Player %c wins!", winner);
                 if (winner == 'X') { // Check if the winner is X
@@ -245,7 +301,7 @@ void on_back_button_clicked(GtkWidget *widget, gpointer data) {
     // Reset scores
     score_x = 0;
     score_o = 0;
-    score_ties = 0;
+    score_draw = 0;
 
     // Update the scoreboard
     update_scoreboard();

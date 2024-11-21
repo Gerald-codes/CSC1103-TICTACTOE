@@ -15,7 +15,7 @@ extern GtkWidget *difficulty_window;
 typedef struct { // Define a struct called GameData
     GtkWidget *score_x_label; // Declare a GtkWidget pointer called score_x_label
     GtkWidget *score_o_label; // Declare a GtkWidget pointer called score_o_label
-    GtkWidget *score_ties_label; // Declare a GtkWidget pointer called score_ties_label
+    GtkWidget *score_draw_label; // Declare a GtkWidget pointer called score_draw_label
     GdkPixbuf *x_pixbuf; // Declare a GdkPixbuf pointer called x_pixbuf
     GdkPixbuf *o_pixbuf; // Declare a GdkPixbuf pointer called o_pixbuf
 } GameData; // Name the struct GameData
@@ -32,13 +32,15 @@ extern char player_o_label[10]; // Player O label
 
 extern int score_x;             // Player X score
 extern int score_o;             // Player O score
-extern int score_ties;          // Ties score
+extern int score_draw;          // draw score
 extern int winning_indices[3];  // Winning indices
 
 extern gboolean auto_reset_pending;
 extern guint blink_timeout_id;
 extern gboolean blink_state;
 extern GameData *game_data;
+
+extern char difficulty_mode[10];
 
 
 extern gboolean blink_winner(gpointer data);
