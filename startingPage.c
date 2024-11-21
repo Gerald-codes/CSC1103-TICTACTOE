@@ -28,12 +28,9 @@ void on_start_clicked(GtkWidget *widget, gpointer data) {
     show_main_menu_page(starting_window);
 }
 
-int main(int argc, char *argv[]) {
+void initialize_gui(void){
     GtkImage *start;
     GtkWidget *start_button;
-
-    gtk_init(&argc, &argv);
-    load_css();
 
     // Create the main window
     starting_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -74,8 +71,4 @@ int main(int argc, char *argv[]) {
 
     GtkSettings *default_settings = gtk_settings_get_default();
     g_object_set(default_settings, "gtk-button-images", TRUE, NULL);
-
-    gtk_main();
-
-    return 0;
 }
