@@ -35,7 +35,7 @@ const char* checkGameOver() {
 }
 
 // Function to check if a player has won
-bool checkWin(char player) {
+bool checkPlayerWin(char player) {
     return ((board[0] == player && board[1] == player && board[2] == player) ||
             (board[3] == player && board[4] == player && board[5] == player) ||
             (board[6] == player && board[7] == player && board[8] == player) ||
@@ -50,8 +50,8 @@ bool checkWin(char player) {
 // Returns the best score for the specified player
 int minimax(char player, bool isMaximizing, int alpha, int beta) {
     // Base cases: check for a win or tie
-    if (checkWin('X')) return -1; // 'X' wins
-    if (checkWin('O')) return 1;  // 'O' wins
+    if (checkPlayerWin('X')) return -1; // 'X' wins
+    if (checkPlayerWin('O')) return 1;  // 'O' wins
     if (strcmp(checkGameOver(), "tie") == 0) return 0; // Tie
     if (isMaximizing) {
         int maxEval = -1000; // Initialize maxEval to a very low value for maximizing player
@@ -102,7 +102,6 @@ int findBestMinMaxMove() {
             }
         }
     }
-    printf("BE board %s\n", board);
     return bestMove;
 }
 

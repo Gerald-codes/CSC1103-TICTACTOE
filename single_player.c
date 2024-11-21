@@ -1,25 +1,34 @@
 #include <gtk/gtk.h> 
 #include <stdio.h> // Include the standard I/O library for file operations
 #include <stdlib.h> 
-#include "pages.h"
 #include "constants.h"
+#include "pages.h"
+#include "backend.h"
+#include <time.h>
 
 extern GtkWidget *difficulty_window;
 GtkWidget *single_player_window;
-static char player_x[10] = "X (YOU)";
-static char player_o[10] = "O (CPU)";
-extern void load_players_name(char *player_x,char *player_o);
-extern void update_scoreboard();
-extern char check_winner();
-extern void reset_board();
-extern void cleanup_game_data();
-extern gboolean auto_reset_board(gpointer data);
-extern void button_clicked(GtkWidget *widget, gpointer data);
-extern void on_back_button_clicked(GtkWidget *widget, gpointer data);
+char difficulty_mode[10]; // Declare a string called difficulty_mode
+LinearRegressionModel model;
 
 
-void show_single_player_page(GtkWidget *difficulty_window) {
-    
+void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
+    if (strcmp(difficulty,"EASY") == 0){
+        strncpy(difficulty_mode, difficulty, sizeof(difficulty_mode) - 1); // Copy name_x to player_x_label
+        difficulty_mode[sizeof(difficulty_mode) - 1] = '\0'; // Ensure null termination
+        parseDataset(&model);  // Parse the dataset
+    }else if(strcmp(difficulty, "MEDIUM") == 0){
+        strncpy(difficulty_mode, difficulty, sizeof(difficulty_mode) - 1); // Copy name_x to player_x_label
+        difficulty_mode[sizeof(difficulty_mode) - 1] = '\0'; // Ensure null termination
+    }else{
+        strncpy(difficulty_mode, difficulty, sizeof(difficulty_mode) - 1); // Copy name_x to player_x_label
+        difficulty_mode[sizeof(difficulty_mode) - 1] = '\0'; // Ensure null termination
+    }
+    printf("Difficulty: %s\n", difficulty_mode);
+
+    static char player_x[10] = "X (YOU)";
+    static char player_o[10] = "O (CPU)";
+
     load_players_name(player_x, player_o);
 
     game_data = (GameData *)malloc(sizeof(GameData));
@@ -50,8 +59,10 @@ void show_single_player_page(GtkWidget *difficulty_window) {
     gtk_fixed_put(GTK_FIXED(fixed), title, 0, 0);
 
     // Create the mode label
-    mode = gtk_label_new("SINGLE PLAYER - EASY MODE");
-    gtk_widget_set_name(mode, "status_label");  // Set a name for CSS targeting
+    char status_label[50];
+    snprintf(status_label, sizeof(status_label), "SINGLE PLAYER - %s MODE", difficulty_mode);
+    mode = gtk_label_new(status_label);
+    gtk_widget_set_name(mode, "mode_label");  // Set a name for CSS targeting
     gtk_fixed_put(GTK_FIXED(fixed), mode, 0, 50);
 
     // Create the grid
@@ -96,13 +107,13 @@ void show_single_player_page(GtkWidget *difficulty_window) {
     game_data->score_o_label = score_o_label;
     gtk_fixed_put(GTK_FIXED(fixed), score_o_label, 350, 650);
 
-    // Ties Scoreboard
-    GtkWidget *score_ties_label = gtk_label_new("TIES\n    0");
-    gtk_style_context_add_class(gtk_widget_get_style_context(score_ties_label), "score-box");
-    gtk_style_context_add_class(gtk_widget_get_style_context(score_ties_label), "score-ties");
-    gtk_widget_set_size_request(score_ties_label, 107, 87); // Set the size of the label
-    game_data->score_ties_label = score_ties_label;
-    gtk_fixed_put(GTK_FIXED(fixed), score_ties_label, 200, 650);
+    // Draw Scoreboard
+    GtkWidget *score_draw_label = gtk_label_new("DRAW\n    0");
+    gtk_style_context_add_class(gtk_widget_get_style_context(score_draw_label), "score-box");
+    gtk_style_context_add_class(gtk_widget_get_style_context(score_draw_label), "score-draw");
+    gtk_widget_set_size_request(score_draw_label, 107, 87); // Set the size of the label
+    game_data->score_draw_label = score_draw_label;
+    gtk_fixed_put(GTK_FIXED(fixed), score_draw_label, 200, 650);
 
     // Create the "Back" button 
     GtkWidget *back_button = gtk_button_new_with_label("Back");

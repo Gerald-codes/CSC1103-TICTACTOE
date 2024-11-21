@@ -142,8 +142,5 @@ int parseDataset(LinearRegressionModel *model) {
     }
     printf("\n");
 
-    // Play the game
-    // playGame(&model);
-
     return 0;
 }

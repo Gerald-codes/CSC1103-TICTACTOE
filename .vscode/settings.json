@@ -11,6 +11,7 @@
         "constants.h": "c",
         "stdlib.h": "c",
         "__bit_reference": "c",
-        "ios": "c"
+        "ios": "c",
+        "time.h": "c"
     }
 }
