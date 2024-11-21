@@ -1,4 +1,4 @@
-// difficulty_page.c
+// difficultyPage.c
 
 #include "pages.h"
 
