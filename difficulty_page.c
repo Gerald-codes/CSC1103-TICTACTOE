@@ -10,7 +10,6 @@ GtkWidget *difficulty_window;
 void on_easy_clicked(GtkWidget *widget, gpointer data) {
     g_print("Easy difficulty selected\n");
     show_single_player_page(difficulty_window);  // Show the single player page
-    // Code to start the game in Easy mode goes here
 }
 
 void on_medium_clicked(GtkWidget *widget, gpointer data) {
