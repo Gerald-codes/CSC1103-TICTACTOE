@@ -8,8 +8,8 @@ GtkWidget *double_player_window; // Declare the double player window
 
 // Function to display the double player page
 void show_double_player_page(GtkWidget *main_menu_window) {
-    static char player_x[10] = "Player X"; // Default name for Player X
-    static char player_o[10] = "Player O"; // Default name for Player O
+    static char player_x[10] = "PLAYER X"; // Default name for Player X
+    static char player_o[10] = "PLAYER O"; // Default name for Player O
     
     // Load custom player names for score box and status label display
     load_players_name(player_x, player_o);
@@ -30,6 +30,7 @@ void show_double_player_page(GtkWidget *main_menu_window) {
     gtk_window_set_title(GTK_WINDOW(double_player_window), "TIC - TAC - TOE"); // Set the window title
     gtk_window_set_default_size(GTK_WINDOW(double_player_window), 480, 800); // Set the default window size
     gtk_container_set_border_width(GTK_CONTAINER(double_player_window), 40); // Add padding around the window content
+    gtk_window_set_resizable(GTK_WINDOW(double_player_window), FALSE); // Disable window resizing
 
     GtkWidget *fixed, *background, *title, *mode;
 

@@ -37,7 +37,6 @@ void initialize_gui(void){
     gtk_window_set_title(GTK_WINDOW(starting_window), "TIC - TAC - TOE");
     gtk_window_set_default_size(GTK_WINDOW(starting_window), 480, 800);
     gtk_window_set_resizable(GTK_WINDOW(starting_window), FALSE); // Disable window resizing
-    // gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
     gtk_container_set_border_width(GTK_CONTAINER(starting_window), 40);
 
 

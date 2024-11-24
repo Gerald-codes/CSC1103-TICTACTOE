@@ -46,6 +46,7 @@ void show_difficulty_page(GtkWidget *main_menu_window) {
     gtk_window_set_title(GTK_WINDOW(difficulty_window), "Difficulty Levels");  // Set window title
     gtk_window_set_default_size(GTK_WINDOW(difficulty_window), 480, 800);  // Set default size of the window
     gtk_container_set_border_width(GTK_CONTAINER(difficulty_window), 40);  // Set padding around the window content
+    gtk_window_set_resizable(GTK_WINDOW(difficulty_window), FALSE); // Disable window resizing
 
     // Create a fixed container for precise widget placement
     fixed = gtk_fixed_new();

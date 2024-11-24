@@ -44,6 +44,7 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     gtk_window_set_title(GTK_WINDOW(single_player_window), "TIC - TAC - TOE");
     gtk_window_set_default_size(GTK_WINDOW(single_player_window), 480, 800);
     gtk_container_set_border_width(GTK_CONTAINER(single_player_window), 40);
+    gtk_window_set_resizable(GTK_WINDOW(single_player_window), FALSE);
 
     GtkWidget *fixed, *background, *title, *mode;
 
