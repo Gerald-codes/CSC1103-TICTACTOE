@@ -4,6 +4,7 @@
 #include <stdlib.h> 
 #include "constants.h"
 #include "backend.h"
+#include <AudioToolbox/AudioToolbox.h> // Include the AudioToolbox framework
 
 GtkWidget *main_menu_window = NULL;
 GtkWidget *difficulty_window = NULL;
@@ -36,6 +37,7 @@ void load_players_name(char *name_x, char *name_o) {
 
     strncpy(player_o_label, name_o, sizeof(player_o_label) - 1); // Copy name_o to player_o_label
     player_o_label[sizeof(player_o_label) - 1] = '\0'; // Ensure null termination
+
 }
 
 // Function to update the scoreboards with the latest scores
@@ -62,6 +64,20 @@ void reset_board() {
         g_source_remove(blink_timeout_id);
         blink_timeout_id = 0;
     }
+}
+
+
+
+// Function to play sound
+void play_sound(const char *file_path) {
+    CFURLRef soundFileURLRef = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, CFStringCreateWithCString(kCFAllocatorDefault, file_path, kCFStringEncodingUTF8), kCFURLPOSIXPathStyle, false);
+    SystemSoundID soundID;
+    AudioServicesCreateSystemSoundID(soundFileURLRef, &soundID);
+    AudioServicesPlaySystemSound(soundID);
+    CFRelease(soundFileURLRef);
+
+        // Schedule a timer to stop the sound after 1.5 seconds
+    g_timeout_add(1500, (GSourceFunc)AudioServicesDisposeSystemSoundID, GINT_TO_POINTER(soundID));
 }
 
 // Function to check the winner
@@ -139,6 +155,7 @@ gboolean blink_winner(gpointer data) {
 
 // Function to handle button click events for SINGLE PLAYER MODE
 void button_clicked(GtkWidget *widget, gpointer data) {
+    play_sound("audio/selectAudio.mp3"); // Play a sound effect
     int index = GPOINTER_TO_INT(data); // Convert the data pointer to an integer
     if (board[index] == '-') { // Check if the board at the index is empty
         board[index] = player;
@@ -163,8 +180,10 @@ void button_clicked(GtkWidget *widget, gpointer data) {
                 snprintf(message, sizeof(message), "Player %c wins!", winner);
                 if (winner == 'X') { // Check if the winner is X
                     score_x++;
+                    play_sound("audio/winningAudio.wav"); // Play a sound effect
                 } else { // If the winner is O
                     score_o++;
+                    play_sound("audio/losingAudio.wav"); // Play a sound effect
                 }
                 blink_timeout_id = g_timeout_add(500, blink_winner, NULL); // Add a timeout to blink the winning indices
             }
@@ -223,7 +242,9 @@ void button_clicked(GtkWidget *widget, gpointer data) {
                     snprintf(message, sizeof(message), "CPU %c wins!", winner);
                     if (winner == 'X') { // Check if the winner is X
                         score_x++;
+                        play_sound("audio/winningAudio.wav"); // Play a sound effect
                     } else { // If the winner is O
+                        play_sound("audio/losingAudio.wav"); // Play a sound effect
                         score_o++;
                     }
                     blink_timeout_id = g_timeout_add(500, blink_winner, NULL); // Add a timeout to blink the winning indices
@@ -245,6 +266,7 @@ void button_clicked(GtkWidget *widget, gpointer data) {
 
 // Function to handle button click events for DOUBLE PLAYER MODE
 void button_clicked2(GtkWidget *widget, gpointer data) {
+    play_sound("audio/selectAudio.mp3"); // Play a sound effect
     int index = GPOINTER_TO_INT(data); // Convert the data pointer to an integer
     if (board[index] == '-') { // Check if the board at the index is empty
         board[index] = player;
@@ -272,6 +294,7 @@ void button_clicked2(GtkWidget *widget, gpointer data) {
                 } else { // If the winner is O
                     score_o++;
                 }
+                play_sound("audio/winningAudio.wav"); // Play a sound effect
                 blink_timeout_id = g_timeout_add(500, blink_winner, NULL); // Add a timeout to blink the winning indices
             }
             gtk_label_set_text(GTK_LABEL(status_label), message); // Set the text of the status_label widget

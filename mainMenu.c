@@ -31,6 +31,8 @@ void show_main_menu_page(GtkWidget *starting_window){
     // Hide the starting window
     gtk_widget_hide(starting_window);
 
+    play_song("audio/gameAudio.mp3"); // Play a sound effect
+
     // Create the main menu window
     main_menu_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(main_menu_window), "TIC - TAC - TOE");

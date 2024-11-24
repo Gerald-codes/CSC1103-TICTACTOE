@@ -65,4 +65,6 @@ void cleanup_game_data();
 // Callback function for the "Back" button
 void on_back_button_clicked(GtkWidget *widget, gpointer data);
 
+void play_sound(const char *file_path);
+
 #endif // HEADER_NAME_H  // End of header guard

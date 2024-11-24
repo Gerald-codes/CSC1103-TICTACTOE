@@ -15,7 +15,7 @@ int minimax(char player, bool isMaximizing, int alpha, int beta) {
     if (winner=='X') return -1;
     if (winner=='O') return 1;
     if (winner=='D') return 0;
-
+    
     if (isMaximizing) {
         int max_eval = -1000; // Initialize max_eval to a very low value for maximizing player
         for (int i = 0; i < 9; i++) {
