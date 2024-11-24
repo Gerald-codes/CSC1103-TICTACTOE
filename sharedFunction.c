@@ -327,36 +327,4 @@ void on_back_button_clicked(GtkWidget *widget, gpointer data) {
     gtk_widget_show_all(main_menu_window);
 }
 
-// Function to check if a player has won
-bool checkWin(char player) {
-    // Winning combinations (rows, columns, diagonals)
-    int winCombos[8][3] = {
-        {0, 1, 2}, {3, 4, 5}, {6, 7, 8},  // Rows
-        {0, 3, 6}, {1, 4, 7}, {2, 5, 8},  // Columns
-        {0, 4, 8}, {2, 4, 6}              // Diagonals
-    };
-
-    // Check if any winning combination is met
-    for (int i = 0; i < 8; i++) { //each winning combination in winCombos array
-        if (board[winCombos[i][0]] == player && // check if all 3 cells in the contained in the combination contain the the specified player's symbol(X or O)
-            board[winCombos[i][1]] == player &&
-            board[winCombos[i][2]] == player) {
-            winning_indices[0] = winCombos[i][0]; // 1st cell of the i-the winning combination in the array, the value is assigned to winning_indices[0] 
-            winning_indices[1] = winCombos[i][1]; // 2nd cell 
-            winning_indices[2] = winCombos[i][2]; // 3rd cell
-            return true;
-        }
-    }
-    return false;
-}
-
-// Function to check if the game is a tie
-bool checkTie() {
-    for (int i = 0; i < 9; i++) {
-        if (board[i] == ' ') {
-            return false; // There is at least one empty cell, so it's not a tie
-        }
-    }
-    return true; // All cells are filled, so it's a tie
-}
 

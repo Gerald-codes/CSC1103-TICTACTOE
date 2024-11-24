@@ -11,7 +11,6 @@ GtkWidget *single_player_window;
 char difficulty_mode[10]; // Declare a string called difficulty_mode
 LinearRegressionModel model;
 
-
 void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     if (strcmp(difficulty,"EASY") == 0){
         strncpy(difficulty_mode, difficulty, sizeof(difficulty_mode) - 1); // Copy name_x to player_x_label

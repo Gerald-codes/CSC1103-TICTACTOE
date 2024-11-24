@@ -2,8 +2,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h> 
-#include "pages.h"
-
 
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
@@ -66,9 +64,5 @@ void cleanup_game_data();
 
 // Callback function for the "Back" button
 void on_back_button_clicked(GtkWidget *widget, gpointer data);
-
-bool checkWin(char player);
-bool checkTie();
-
 
 #endif // HEADER_NAME_H  // End of header guard

@@ -3,56 +3,19 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
+#include "constants.h"
 
 extern char board[9];
-
-// Function to check if the game is over
-const char* check_game_over() {
-    // Check for a win
-    if ((board[0] == board[1] && board[1] == board[2] && board[0] != '-') ||
-        (board[3] == board[4] && board[4] == board[5] && board[3] != '-') ||
-        (board[6] == board[7] && board[7] == board[8] && board[6] != '-') ||
-        (board[0] == board[3] && board[3] == board[6] && board[0] != '-') ||
-        (board[1] == board[4] && board[4] == board[7] && board[1] != '-') ||
-        (board[2] == board[5] && board[5] == board[8] && board[2] != '-') ||
-        (board[0] == board[4] && board[4] == board[8] && board[0] != '-') ||
-        (board[2] == board[4] && board[4] == board[6] && board[2] != '-')) {
-        return "win";
-    }
-    // Check for a tie
-    int is_tie = 1;
-    for (int i = 0; i < 9; i++) {
-        if (board[i] == '-') {
-            is_tie = 0;
-            break;
-        }
-    }
-    if (is_tie) {
-        return "tie";
-    }
-    // Game is not over
-    return "play";
-}
-
-// Function to check if a player has won
-bool check_player_win(char player) {
-    return ((board[0] == player && board[1] == player && board[2] == player) ||
-            (board[3] == player && board[4] == player && board[5] == player) ||
-            (board[6] == player && board[7] == player && board[8] == player) ||
-            (board[0] == player && board[3] == player && board[6] == player) ||
-            (board[1] == player && board[4] == player && board[7] == player) ||
-            (board[2] == player && board[5] == player && board[8] == player) ||
-            (board[0] == player && board[4] == player && board[8] == player) ||
-            (board[2] == player && board[4] == player && board[6] == player));
-}
 
 // Minimax algorithm with alpha-beta pruning
 // Returns the best score for the specified player
 int minimax(char player, bool isMaximizing, int alpha, int beta) {
     // Base cases: check for a win or tie
-    if (check_player_win('X')) return -1; // 'X' wins
-    if (check_player_win('O')) return 1;  // 'O' wins
-    if (strcmp(check_game_over(), "tie") == 0) return 0; // Tie
+    char winner = check_winner();
+    if (winner=='X') return -1;
+    if (winner=='O') return 1;
+    if (winner=='D') return 0;
+
     if (isMaximizing) {
         int max_eval = -1000; // Initialize max_eval to a very low value for maximizing player
         for (int i = 0; i < 9; i++) {
