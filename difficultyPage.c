@@ -9,23 +9,28 @@ GtkWidget *difficulty_window;  // Declare the difficulty window
 // Callback function for the "Easy" difficulty button
 void on_easy_clicked(GtkWidget *widget, gpointer data) {
     static char mode[10] = "EASY";  // Set the game mode to "EASY"
+    play_sound("audio/selectAudio.mp3"); // Play a sound effect
     show_single_player_page(difficulty_window, mode);  // Navigate to the single-player page with "EASY" mode
+    
 }
 
 // Callback function for the "Medium" difficulty button
 void on_medium_clicked(GtkWidget *widget, gpointer data) {
     static char mode[10] = "MEDIUM";  // Set the game mode to "MEDIUM"
+    play_sound("audio/selectAudio.mp3"); // Play a sound effect
     show_single_player_page(difficulty_window, mode);  // Navigate to the single-player page with "MEDIUM" mode
 }
 
 // Callback function for the "Hard" difficulty button
 void on_hard_clicked(GtkWidget *widget, gpointer data) {
     static char mode[10] = "HARD";  // Set the game mode to "HARD"
+    play_sound("audio/selectAudio.mp3"); // Play a sound effect
     show_single_player_page(difficulty_window, mode);  // Navigate to the single-player page with "HARD" mode
 }
 
 // Callback function for the "Back" button
 void on_back_clicked(GtkWidget *widget, gpointer data) {
+    play_sound("audio/selectAudio.mp3"); // Play a sound effect
     gtk_widget_hide(GTK_WIDGET(data));  // Hide the difficulty selection window
     gtk_widget_show_all(main_menu_window);  // Show the main menu window
 }

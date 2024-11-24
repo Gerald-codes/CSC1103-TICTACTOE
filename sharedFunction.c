@@ -329,6 +329,8 @@ void cleanup_game_data() {
 
 // Callback function for the "Back" button
 void on_back_button_clicked(GtkWidget *widget, gpointer data) {
+    play_sound("audio/selectAudio.mp3"); // Play a sound effect
+
     // Reset scores
     score_x = 0;
     score_o = 0;

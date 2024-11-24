@@ -11,16 +11,19 @@ extern GtkWidget *starting_window;  // Declare the main window from startingPage
 // Callback function for the Single Player button in the main menu
 void on_single_player_clicked(GtkWidget *widget, gpointer data) {
     show_difficulty_page(main_menu_window);
+    play_sound("audio/selectAudio.mp3"); // Play a sound effect
 }
 
 // Callback function for the Double Player button
 void on_double_player_clicked(GtkWidget *widget, gpointer data) {
     show_double_player_page(main_menu_window);
+    play_sound("audio/selectAudio.mp3"); // Play a sound effect
 }
 
 // Callback function for the Quit button
 void on_quit_clicked(GtkWidget *widget, gpointer data) {
     gtk_main_quit();
+    play_sound("audio/selectAudio.mp3"); // Play a sound effect
 }
 
 // Function to show the main menu page
@@ -31,7 +34,7 @@ void show_main_menu_page(GtkWidget *starting_window){
     // Hide the starting window
     gtk_widget_hide(starting_window);
 
-    // play_song("audio/gameAudio.mp3"); // Play a sound effect
+    play_song("audio/gameAudio.mp3"); // Play a sound effect
 
     // Create the main menu window
     main_menu_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
