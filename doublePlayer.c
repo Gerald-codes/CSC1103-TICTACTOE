@@ -28,7 +28,7 @@ void show_double_player_page(GtkWidget *main_menu_window) {
     // Create the double player window
     double_player_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(double_player_window), "TIC - TAC - TOE"); // Set the window title
-    gtk_window_set_default_size(GTK_WINDOW(double_player_window), 600, 1000); // Set the default window size
+    gtk_window_set_default_size(GTK_WINDOW(double_player_window), 480, 800); // Set the default window size
     gtk_container_set_border_width(GTK_CONTAINER(double_player_window), 40); // Add padding around the window content
 
     GtkWidget *fixed, *background, *title, *mode;
@@ -45,16 +45,16 @@ void show_double_player_page(GtkWidget *main_menu_window) {
     // Create the status label to display the current player's turn
     status_label = gtk_label_new("Player X's turn");
     gtk_widget_set_name(status_label, "status_label");  // Set a name for CSS targeting
-    gtk_fixed_put(GTK_FIXED(fixed), status_label, 0, 50);
+    gtk_fixed_put(GTK_FIXED(fixed), status_label, 0, 40);
 
     // Create a grid layout for the Tic-Tac-Toe board
     GtkWidget *grid = gtk_grid_new(); 
     gtk_widget_set_name(grid, "tic-tac-toe-grid"); // Set a name for CSS targeting
     gtk_widget_set_halign(grid, GTK_ALIGN_CENTER); // Center the grid horizontally
     gtk_widget_set_valign(grid, GTK_ALIGN_CENTER); // Center the grid vertically
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 25); // Add spacing between rows
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 25); // Add spacing between columns
-    gtk_fixed_put(GTK_FIXED(fixed), grid, 50, 180);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 20); // Add spacing between rows
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 20); // Add spacing between columns
+    gtk_fixed_put(GTK_FIXED(fixed), grid, 40, 144);
 
     // Make rows and columns expand evenly within the grid
     gtk_grid_set_row_homogeneous(GTK_GRID(grid), TRUE);
@@ -64,7 +64,7 @@ void show_double_player_page(GtkWidget *main_menu_window) {
     for (int i = 0; i < 9; i++) {
         buttons[i] = gtk_button_new_with_label(" "); // Initialize button with an empty label
         gtk_widget_set_name(buttons[i], "grid-button"); // Set a name for CSS targeting
-        gtk_widget_set_size_request(buttons[i], 120, 120); // Set button size
+        gtk_widget_set_size_request(buttons[i], 96, 96); // Set button size
         gtk_widget_set_hexpand(buttons[i], TRUE); // Allow horizontal expansion
         gtk_widget_set_vexpand(buttons[i], TRUE); // Allow vertical expansion
 
@@ -77,28 +77,28 @@ void show_double_player_page(GtkWidget *main_menu_window) {
     } 
 
     // Create and configure the X scoreboard
-    GtkWidget *score_x_label = gtk_label_new("PLAYER X\n       0"); // Display player name and score
+    GtkWidget *score_x_label = gtk_label_new("PLAYER X\n        0"); // Display player name and score
     gtk_style_context_add_class(gtk_widget_get_style_context(score_x_label), "score-box"); // Add CSS class for styling
     gtk_style_context_add_class(gtk_widget_get_style_context(score_x_label), "score-x"); // Add specific class for Player X
-    gtk_widget_set_size_request(score_x_label, 107, 87); // Set scoreboard size
+    gtk_widget_set_size_request(score_x_label, 86, 70); // Set scoreboard size
     game_data->score_x_label = score_x_label; // Store the label in game data
-    gtk_fixed_put(GTK_FIXED(fixed), score_x_label, 50, 650); // Position the scoreboard
+    gtk_fixed_put(GTK_FIXED(fixed), score_x_label, 40, 520); // Position the scoreboard
 
     // Create and configure the O scoreboard
     GtkWidget *score_o_label = gtk_label_new("PLAYER O\n        0"); // Display player name and score
     gtk_style_context_add_class(gtk_widget_get_style_context(score_o_label), "score-box"); // Add CSS class for styling
     gtk_style_context_add_class(gtk_widget_get_style_context(score_o_label), "score-o"); // Add specific class for Player O
-    gtk_widget_set_size_request(score_o_label, 107, 87); // Set scoreboard size
+    gtk_widget_set_size_request(score_o_label, 86, 70); // Set scoreboard size
     game_data->score_o_label = score_o_label; // Store the label in game data
-    gtk_fixed_put(GTK_FIXED(fixed), score_o_label, 350, 650); // Position the scoreboard
+    gtk_fixed_put(GTK_FIXED(fixed), score_o_label, 280, 520); // Position the scoreboard
 
     // Create and configure the Draw scoreboard
     GtkWidget *score_draw_label = gtk_label_new("DRAW\n    0"); // Display draw score
     gtk_style_context_add_class(gtk_widget_get_style_context(score_draw_label), "score-box"); // Add CSS class for styling
     gtk_style_context_add_class(gtk_widget_get_style_context(score_draw_label), "score-draw"); // Add specific class for draws
-    gtk_widget_set_size_request(score_draw_label, 107, 87); // Set scoreboard size
+    gtk_widget_set_size_request(score_draw_label, 86, 70); // Set scoreboard size
     game_data->score_draw_label = score_draw_label; // Store the label in game data
-    gtk_fixed_put(GTK_FIXED(fixed), score_draw_label, 200, 650); // Position the scoreboard
+    gtk_fixed_put(GTK_FIXED(fixed), score_draw_label, 160, 520); // Position the scoreboard
 
     // Create the "Back" button with an arrow image
     GtkWidget *back_button = gtk_button_new_with_label("Back");
@@ -107,7 +107,7 @@ void show_double_player_page(GtkWidget *main_menu_window) {
     gtk_widget_set_name(arrow, "arrow");  // Set a name for CSS targeting
     g_signal_connect(back_button, "clicked", G_CALLBACK(on_back_button_clicked), double_player_window); // Connect the back button to its callback
     gtk_button_set_image(GTK_BUTTON(back_button), arrow); // Add the arrow image to the back button
-    gtk_fixed_put(GTK_FIXED(fixed), back_button, 10, 800); // Position the back button
+    gtk_fixed_put(GTK_FIXED(fixed), back_button, 8, 640); // Position the back button
 
     // Show all widgets in the double player window
     gtk_widget_show_all(double_player_window);

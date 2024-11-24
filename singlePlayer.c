@@ -42,7 +42,7 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     // Create the single player window
     single_player_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(single_player_window), "TIC - TAC - TOE");
-    gtk_window_set_default_size(GTK_WINDOW(single_player_window), 600, 1000);
+    gtk_window_set_default_size(GTK_WINDOW(single_player_window), 480, 800);
     gtk_container_set_border_width(GTK_CONTAINER(single_player_window), 40);
 
     GtkWidget *fixed, *background, *title, *mode;
@@ -61,16 +61,16 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     snprintf(status_label, sizeof(status_label), "SINGLE PLAYER - %s MODE", difficulty_mode);
     mode = gtk_label_new(status_label);
     gtk_widget_set_name(mode, "mode_label");  // Set a name for CSS targeting
-    gtk_fixed_put(GTK_FIXED(fixed), mode, 0, 50);
+    gtk_fixed_put(GTK_FIXED(fixed), mode, 0, 40);
 
     // Create the grid
     GtkWidget *grid = gtk_grid_new(); 
     gtk_widget_set_name(grid, "tic-tac-toe-grid"); // Set the name of the grid widget
     gtk_widget_set_halign(grid, GTK_ALIGN_CENTER); // Center the grid horizontally
     gtk_widget_set_valign(grid, GTK_ALIGN_CENTER); // Center the grid vertically
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 25); // Set the row spacing to 25 pixels
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 25); // Set the column spacing to 25 pixels
-    gtk_fixed_put(GTK_FIXED(fixed), grid, 50, 180);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 20); // Set the row spacing to 25 pixels
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 20); // Set the column spacing to 25 pixels
+    gtk_fixed_put(GTK_FIXED(fixed), grid, 40, 144);
 
 
     gtk_grid_set_row_homogeneous(GTK_GRID(grid), TRUE);
@@ -79,7 +79,7 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     for (int i = 0; i < 9; i++) {
         buttons[i] = gtk_button_new_with_label(" "); 
         gtk_widget_set_name(buttons[i], "grid-button"); // Add the grid-button class
-        gtk_widget_set_size_request(buttons[i], 120, 120); // Set the size of the button
+        gtk_widget_set_size_request(buttons[i], 96, 96); // Set the size of the button
         gtk_widget_set_hexpand(buttons[i], TRUE); // Set the horizontal expand property of the button
         gtk_widget_set_vexpand(buttons[i], TRUE); // Set the vertical expand property of the button
 
@@ -92,26 +92,26 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     GtkWidget *score_x_label = gtk_label_new("X (YOU)\n       0");
     gtk_style_context_add_class(gtk_widget_get_style_context(score_x_label), "score-box");
     gtk_style_context_add_class(gtk_widget_get_style_context(score_x_label), "score-x");
-    gtk_widget_set_size_request(score_x_label, 107, 87); // Set the size of the label
+    gtk_widget_set_size_request(score_x_label, 86, 70); // Set scoreboard size
     game_data->score_x_label = score_x_label;
-    gtk_fixed_put(GTK_FIXED(fixed), score_x_label, 50, 650);
+    gtk_fixed_put(GTK_FIXED(fixed), score_x_label, 40, 520); // Position the scoreboard
 
 
     // O Scoreboard
     GtkWidget *score_o_label = gtk_label_new("O (CPU)\n        0");
     gtk_style_context_add_class(gtk_widget_get_style_context(score_o_label), "score-box");
     gtk_style_context_add_class(gtk_widget_get_style_context(score_o_label), "score-o");
-    gtk_widget_set_size_request(score_o_label, 107, 87); // Set the size of the label
+    gtk_widget_set_size_request(score_o_label, 86, 70); // Set scoreboard size
     game_data->score_o_label = score_o_label;
-    gtk_fixed_put(GTK_FIXED(fixed), score_o_label, 350, 650);
+    gtk_fixed_put(GTK_FIXED(fixed), score_o_label, 280, 520); // Position the scoreboard
 
     // Draw Scoreboard
     GtkWidget *score_draw_label = gtk_label_new("DRAW\n    0");
     gtk_style_context_add_class(gtk_widget_get_style_context(score_draw_label), "score-box");
     gtk_style_context_add_class(gtk_widget_get_style_context(score_draw_label), "score-draw");
-    gtk_widget_set_size_request(score_draw_label, 107, 87); // Set the size of the label
+    gtk_widget_set_size_request(score_draw_label, 86, 70); // Set scoreboard size
     game_data->score_draw_label = score_draw_label;
-    gtk_fixed_put(GTK_FIXED(fixed), score_draw_label, 200, 650);
+    gtk_fixed_put(GTK_FIXED(fixed), score_draw_label, 160, 520); // Position the scoreboard
 
     // Create the "Back" button 
     GtkWidget *back_button = gtk_button_new_with_label("Back");
@@ -120,7 +120,7 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     gtk_widget_set_name(arrow, "arrow");  // Set a name for CSS targeting
     g_signal_connect(back_button, "clicked", G_CALLBACK(on_back_button_clicked), single_player_window);
     gtk_button_set_image(GTK_BUTTON(back_button),arrow);
-    gtk_fixed_put(GTK_FIXED(fixed), back_button, 10, 800);
+    gtk_fixed_put(GTK_FIXED(fixed), back_button, 8, 640);
 
     // Show all widgets in the single player window
     gtk_widget_show_all(single_player_window);

@@ -39,7 +39,7 @@ void show_difficulty_page(GtkWidget *main_menu_window) {
     // Create the difficulty selection window
     difficulty_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(difficulty_window), "Difficulty Levels");  // Set window title
-    gtk_window_set_default_size(GTK_WINDOW(difficulty_window), 600, 1000);  // Set default size of the window
+    gtk_window_set_default_size(GTK_WINDOW(difficulty_window), 480, 800);  // Set default size of the window
     gtk_container_set_border_width(GTK_CONTAINER(difficulty_window), 40);  // Set padding around the window content
 
     // Create a fixed container for precise widget placement
@@ -54,25 +54,25 @@ void show_difficulty_page(GtkWidget *main_menu_window) {
     // Add a background image to the window
     background = gtk_image_new_from_file("images/bg.png");  // Replace with the actual path to the image
     gtk_widget_set_name(background, "bg");  // Set a name for CSS targeting
-    gtk_fixed_put(GTK_FIXED(fixed), background, 0, 60);
+    gtk_fixed_put(GTK_FIXED(fixed), background, 0, 40);
 
     // Create the "Easy" button
     GtkWidget *easy_button = gtk_button_new_with_label("EASY");
     gtk_widget_set_name(easy_button, "easy_button");  // Set a name for CSS targeting
     g_signal_connect(easy_button, "clicked", G_CALLBACK(on_easy_clicked), NULL);  // Connect to the "Easy" callback
-    gtk_fixed_put(GTK_FIXED(fixed), easy_button, 130, 290);  // Position the button
+    gtk_fixed_put(GTK_FIXED(fixed), easy_button, 92, 215);  // Position the button
 
     // Create the "Medium" button
     GtkWidget *medium_button = gtk_button_new_with_label("MEDIUM");
     gtk_widget_set_name(medium_button, "medium_button");  // Set a name for CSS targeting
     g_signal_connect(medium_button, "clicked", G_CALLBACK(on_medium_clicked), NULL);  // Connect to the "Medium" callback
-    gtk_fixed_put(GTK_FIXED(fixed), medium_button, 130, 370);  // Position the button
+    gtk_fixed_put(GTK_FIXED(fixed), medium_button, 92, 285);  // Position the button
 
     // Create the "Hard" button
     GtkWidget *hard_button = gtk_button_new_with_label("HARD");
     gtk_widget_set_name(hard_button, "hard_button");  // Set a name for CSS targeting
     g_signal_connect(hard_button, "clicked", G_CALLBACK(on_hard_clicked), NULL);  // Connect to the "Hard" callback
-    gtk_fixed_put(GTK_FIXED(fixed), hard_button, 130, 450);  // Position the button
+    gtk_fixed_put(GTK_FIXED(fixed), hard_button, 92, 355);  // Position the button
 
     // Create the "Back" button with an arrow image
     GtkWidget *back_button = gtk_button_new_with_label("Back");
@@ -81,7 +81,7 @@ void show_difficulty_page(GtkWidget *main_menu_window) {
     gtk_widget_set_name(arrow, "arrow");  // Name the image for CSS styling
     g_signal_connect(back_button, "clicked", G_CALLBACK(on_back_clicked), difficulty_window);  // Connect to the "Back" callback
     gtk_button_set_image(GTK_BUTTON(back_button), arrow);  // Set the arrow image on the button
-    gtk_fixed_put(GTK_FIXED(fixed), back_button, 10, 800);  // Position the button
+    gtk_fixed_put(GTK_FIXED(fixed), back_button, 8, 640);  // Position the button
 
     // Display all widgets in the difficulty selection window
     gtk_widget_show_all(difficulty_window);
