@@ -1,7 +1,6 @@
-#include <gtk/gtk.h>
 #include "pages.h"
 
-GtkWidget *starting_window;  // Declare the main menu window as a global variable
+GtkWidget *starting_window;
 GtkWidget *fixed, *background, *title;
 
 // Function to load CSS styling
@@ -18,7 +17,6 @@ void load_css(void){
     gtk_css_provider_load_from_file(provider, css_fp, &error);
     
     g_object_unref(provider);
-
 }
 
 // Callback for the "Start" button
@@ -61,9 +59,6 @@ void initialize_gui(void){
     gtk_button_set_image(GTK_BUTTON(start_button), (GtkWidget *)start);
     g_signal_connect(start_button, "clicked", G_CALLBACK(on_start_clicked), NULL);
     gtk_fixed_put(GTK_FIXED(fixed), start_button, 104, 270);
-
-    // Signal to quit the application when the window is closed
-    g_signal_connect(starting_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
     // Show all widgets
     gtk_widget_show_all(starting_window);

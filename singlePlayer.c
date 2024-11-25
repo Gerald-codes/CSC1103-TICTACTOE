@@ -6,7 +6,7 @@
 #include "backend.h"
 #include <time.h>
 
-extern GtkWidget *difficulty_window;
+extern GtkWidget *difficulty_window, *title, *fixed;
 GtkWidget *single_player_window;
 char difficulty_mode[10]; // Declare a string called difficulty_mode
 LinearRegressionModel model;
@@ -46,8 +46,6 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     gtk_container_set_border_width(GTK_CONTAINER(single_player_window), 40);
     gtk_window_set_resizable(GTK_WINDOW(single_player_window), FALSE);
 
-    GtkWidget *fixed, *background, *title, *mode;
-
     // Fixed container to allow positioning of widgets
     fixed = gtk_fixed_new();
     gtk_container_add(GTK_CONTAINER(single_player_window), fixed);
@@ -60,7 +58,7 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     // Create the mode label
     char status_label[50];
     snprintf(status_label, sizeof(status_label), "SINGLE PLAYER - %s MODE", difficulty_mode);
-    mode = gtk_label_new(status_label);
+    GtkWidget *mode = gtk_label_new(status_label);
     gtk_widget_set_name(mode, "mode_label");  // Set a name for CSS targeting
     gtk_fixed_put(GTK_FIXED(fixed), mode, 0, 40);
 

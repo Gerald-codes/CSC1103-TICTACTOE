@@ -1,11 +1,10 @@
-#include <gtk/gtk.h> 
 #include <stdio.h> // Include the standard I/O library for file operations
 #include <stdlib.h> 
 #include "constants.h"
 #include "pages.h"
 
 GtkWidget *double_player_window; // Declare the double player window
-
+extern GtkWidget *fixed, *title;
 // Function to display the double player page
 void show_double_player_page(GtkWidget *main_menu_window) {
     static char player_x[10] = "PLAYER X"; // Default name for Player X
@@ -31,8 +30,6 @@ void show_double_player_page(GtkWidget *main_menu_window) {
     gtk_window_set_default_size(GTK_WINDOW(double_player_window), 480, 800); // Set the default window size
     gtk_container_set_border_width(GTK_CONTAINER(double_player_window), 40); // Add padding around the window content
     gtk_window_set_resizable(GTK_WINDOW(double_player_window), FALSE); // Disable window resizing
-
-    GtkWidget *fixed, *background, *title, *mode;
 
     // Create a fixed container for widget positioning
     fixed = gtk_fixed_new();
@@ -112,7 +109,4 @@ void show_double_player_page(GtkWidget *main_menu_window) {
 
     // Show all widgets in the double player window
     gtk_widget_show_all(double_player_window);
-
-    // Connect the delete-event signal to quit the application when the double player window is closed
-    g_signal_connect(double_player_window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
 }

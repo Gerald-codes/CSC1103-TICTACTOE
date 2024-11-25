@@ -13,6 +13,7 @@
         "__bit_reference": "c",
         "ios": "c",
         "time.h": "c",
-        "backend.h": "c"
+        "backend.h": "c",
+        "stdbool.h": "c"
     }
 }

@@ -1,5 +1,3 @@
-// difficultyPage.c
-
 #include "pages.h"
 
 extern GtkWidget *main_menu_window;  // Reference to the main menu window
@@ -90,7 +88,4 @@ void show_difficulty_page(GtkWidget *main_menu_window) {
 
     // Display all widgets in the difficulty selection window
     gtk_widget_show_all(difficulty_window);
-
-    // Connect the delete-event signal to quit the application when the window is closed
-    g_signal_connect(difficulty_window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
 }
