@@ -21,9 +21,12 @@ This will install the GTK3 library and its dependencies for the MinGW-w64 enviro
 
 7. Run command "gcc -o start startingPage.c main.c mainMenu.c difficultyPage.c singlePlayer.c sharedFunction.c doublePlayer.c parseDataset.c minMax.c `pkg-config --cflags --libs gtk+-3.0`"
 
-8. Execute ./start file
+8. If above command results in error.
+Run: gcc -o start startingPage.c main.c mainMenu.c difficultyPage.c singlePlayer.c sharedFunction.c doublePlayer.c parseDataset.c minMax.c $(pkg-config --cflags --libs gtk+-3.0)
+
+9. Execute ./start file
 
 Installation of Font
 
-1. Open Jaro.ttf in file explorer
+1. Under project font folder, open Jaro.ttf in file explorer
 2. Click install on the top left
