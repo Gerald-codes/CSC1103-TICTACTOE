@@ -1,7 +1,3 @@
-// gcc -o start main_menu.c difficulty_page.c `pkg-config --cflags --libs gtk+-3.0`
-// main_menu.c
-
-#include <gtk/gtk.h>
 #include "pages.h"
 
 GtkWidget *main_menu_window;  // Declare the main menu window as a global variable
@@ -22,8 +18,8 @@ void on_double_player_clicked(GtkWidget *widget, gpointer data) {
 
 // Callback function for the Quit button
 void on_quit_clicked(GtkWidget *widget, gpointer data) {
-    gtk_main_quit();
     play_sound("audio/selectAudio.mp3"); // Play a sound effect
+    gtk_main_quit();
 }
 
 // Function to show the main menu page
@@ -42,10 +38,6 @@ void show_main_menu_page(GtkWidget *starting_window){
     gtk_window_set_default_size(GTK_WINDOW(main_menu_window), 480, 800);
     gtk_container_set_border_width(GTK_CONTAINER(main_menu_window), 40);
     gtk_window_set_resizable(GTK_WINDOW(main_menu_window), FALSE); // Enable window fixed size
-         
-    // Connect the delete-event signal to quit the GTK main loop when the window is closed
-    g_signal_connect(main_menu_window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
-
 
     // Fixed container to allow positioning of widgets
     fixed = gtk_fixed_new();
@@ -87,5 +79,4 @@ void show_main_menu_page(GtkWidget *starting_window){
 
     // Show all widgets in the main menu window
     gtk_widget_show_all(main_menu_window);
-
 }

@@ -43,11 +43,11 @@ void load_players_name(char *name_x, char *name_o) {
 // Function to update the scoreboards with the latest scores
 void update_scoreboard(){
     char score_text[50];
-    snprintf(score_text, sizeof(score_text), "%s\n       %d",player_x_label, score_x); // Write the score to the score_text buffer
+    snprintf(score_text, sizeof(score_text), "%s\n        %d",player_x_label, score_x); // Write the score to the score_text buffer
     gtk_label_set_text(GTK_LABEL(game_data->score_x_label), score_text);
-    snprintf(score_text, sizeof(score_text), "%s\n        %d",player_o_label, score_o); // Write the score to the score_text buffer
+    snprintf(score_text, sizeof(score_text), "%s\n         %d",player_o_label, score_o); // Write the score to the score_text buffer
     gtk_label_set_text(GTK_LABEL(game_data->score_o_label), score_text);
-    snprintf(score_text, sizeof(score_text), "DRAW\n    %d", score_draw); // Write the score to the score_text buffer
+    snprintf(score_text, sizeof(score_text), "DRAW\n     %d", score_draw); // Write the score to the score_text buffer
     gtk_label_set_text(GTK_LABEL(game_data->score_draw_label), score_text);
 }
 
@@ -351,5 +351,3 @@ void on_back_button_clicked(GtkWidget *widget, gpointer data) {
     // Show the main menu window
     gtk_widget_show_all(main_menu_window);
 }
-
-

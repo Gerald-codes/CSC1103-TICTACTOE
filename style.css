@@ -27,7 +27,15 @@ window{
     color: grey;
     font-style: italic;
     margin-top: 36px;
-    margin-left: 80px;
+    margin-left: 70px;
+}
+
+#medium_mode_label{
+    font-size: 24px;
+    color: grey;
+    font-style: italic;
+    margin-top: 36px;
+    margin-left: 60px;
 }
 
 #status_label{

@@ -1,4 +1,3 @@
-#include <gtk/gtk.h> 
 #include <stdio.h> // Include the standard I/O library for file operations
 #include <stdlib.h> 
 #include "constants.h"
@@ -7,7 +6,10 @@
 #include <time.h>
 
 extern GtkWidget *difficulty_window;
+extern GtkWidget *fixed, *background, *title;
+
 GtkWidget *single_player_window;
+
 char difficulty_mode[10]; // Declare a string called difficulty_mode
 LinearRegressionModel model;
 
@@ -46,8 +48,6 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     gtk_container_set_border_width(GTK_CONTAINER(single_player_window), 40);
     gtk_window_set_resizable(GTK_WINDOW(single_player_window), FALSE);
 
-    GtkWidget *fixed, *background, *title, *mode;
-
     // Fixed container to allow positioning of widgets
     fixed = gtk_fixed_new();
     gtk_container_add(GTK_CONTAINER(single_player_window), fixed);
@@ -60,8 +60,12 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
     // Create the mode label
     char status_label[50];
     snprintf(status_label, sizeof(status_label), "SINGLE PLAYER - %s MODE", difficulty_mode);
-    mode = gtk_label_new(status_label);
-    gtk_widget_set_name(mode, "mode_label");  // Set a name for CSS targeting
+    GtkWidget *mode = gtk_label_new(status_label);
+    if (strcmp(difficulty_mode,"MEDIUM") == 0){
+        gtk_widget_set_name(mode, "medium_mode_label");  // Set a name for CSS targeting
+    }else{
+        gtk_widget_set_name(mode, "mode_label");  // Set a name for CSS targeting
+    }
     gtk_fixed_put(GTK_FIXED(fixed), mode, 0, 40);
 
     // Create the grid
@@ -125,8 +129,4 @@ void show_single_player_page(GtkWidget *difficulty_window, char *difficulty) {
 
     // Show all widgets in the single player window
     gtk_widget_show_all(single_player_window);
-
-    // Connect the delete-event signal to quit the application when the single player window is closed
-    g_signal_connect(single_player_window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
-
 }
